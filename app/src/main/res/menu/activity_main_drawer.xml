@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home_app"
+            android:visible="false"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_myorder"
+            android:icon="@drawable/my_order"
+            android:visible="false"
+            android:title="My Bookings" />
+        <item
+            android:id="@+id/nav_trackorder"
+            android:icon="@drawable/track_order"
+            android:visible="false"
+            android:title="Book a Vendor" />
+        <item
+            android:id="@+id/nav_reorder"
+            android:icon="@drawable/reorder"
+            android:visible="false"
+            android:title="History" />
+        <item
+            android:id="@+id/nav_offers"
+            android:icon="@drawable/offer"
+            android:visible="false"
+            android:title="Offers" />
+        <item
+            android:id="@+id/nav_tc"
+            android:icon="@drawable/terms_app"
+            android:visible="false"
+            android:title="Terms &amp; Conditions" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/about_app"
+            android:visible="false"
+            android:title="About" />
+        <item
+            android:id="@+id/vendor_creation"
+            android:icon="@drawable/track_order"
+            android:visible="false"
+            android:title="Vendor Creation" />
+        <item
+            android:id="@+id/customer_creation"
+            android:icon="@drawable/icon_group"
+            android:visible="false"
+            android:title="Customer List" />
+        <item
+            android:id="@+id/support"
+            android:icon="@drawable/support"
+            android:visible="false"
+            android:title="Support Chat" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/logout"
+            android:visible="false"
+            android:title="Logout" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:visible="false"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+        </menu>
+    </item>
+
+</menu>

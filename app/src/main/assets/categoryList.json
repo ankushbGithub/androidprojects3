@@ -1,0 +1,21 @@
+{
+  "data": [
+    {
+      "Id": 1,
+      "Name":"Party & Events"
+
+    },
+    {
+      "Id": 2,
+      "Name":"Home Service"
+    },
+    {
+      "Id":3,
+      "Name":"Tour & Travel"
+    }
+
+
+
+
+  ]
+}

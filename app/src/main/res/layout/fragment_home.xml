@@ -1,0 +1,180 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@color/backgroundgray"
+    android:focusableInTouchMode="true"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="android.capsulepharmacy.com.fragment.HomeFragment">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+    <android.capsulepharmacy.com.utility.AutoscrollViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:overScrollMode="always"
+        >
+
+    </android.capsulepharmacy.com.utility.AutoscrollViewPager>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabDots"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@+id/viewpager"
+        app:tabBackground="@drawable/tab_selected"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp"/>
+<RelativeLayout
+    android:id="@+id/llUpload"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:padding="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="4dp"
+    android:background="@drawable/full_rectangle"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:id="@+id/upload"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/upload"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/upload"
+        android:text="@string/upload_prescription"
+        android:textSize="16dp"
+        android:layout_marginRight="8dp"
+        android:layout_toLeftOf="@+id/imageArrow"
+        android:textColor="@android:color/white"
+        />
+    <ImageView
+        android:id="@+id/imageArrow"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/arrow_right"
+        />
+</RelativeLayout>
+        <LinearLayout
+            android:id="@+id/llCall"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:padding="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
+
+            android:background="@drawable/full_rectangle"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/call"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="@string/call_us"
+                android:textSize="16dp"
+                android:textColor="@android:color/white"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:padding="8dp"
+            android:textSize="16dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            android:textColor="@android:color/black"
+            />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerviewCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+
+            android:background="@android:color/white"
+            android:overScrollMode="never"
+            android:scrollbars="none"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:padding="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
+
+            android:visibility="gone"
+            android:background="@drawable/full_rectangle"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/terms"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="@string/terms"
+                android:textSize="16dp"
+                android:textColor="@android:color/white"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:padding="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
+
+            android:visibility="gone"
+            android:background="@drawable/full_rectangle"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/about"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="@string/about"
+                android:textSize="16dp"
+                android:textColor="@android:color/white"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</FrameLayout>

@@ -1,0 +1,33 @@
+{
+  "data": [
+    {
+      "Id": 1,
+      "Name":"AC Repair & Service"
+
+    },
+    {
+      "Id": 2,
+      "Name":"Refrigrater Repair"
+    },
+    {
+      "Id":3,
+      "Name":"Inverter Repair"
+    },
+    {
+      "Id":4,
+      "Name":"Plumber & Service"
+    },
+    {
+      "Id":5,
+      "Name":"Carpenter"
+    },
+    {
+      "Id":6,
+      "Name":"Painter"
+    }
+
+
+
+
+  ]
+}
