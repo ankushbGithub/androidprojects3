@@ -41,8 +41,8 @@ public class TrackOrderAdapter extends RecyclerView.Adapter<TrackOrderAdapter.It
     @Override
     public void onBindViewHolder(ItemRowHolder itemRowHolder, final int i) {
 
-        final String sectionName = homeModals.get(i).getTitle();
-        itemRowHolder.itemTitle.setText(sectionName);
+   //     final String sectionName = homeModals.get(i).getTitle();
+   //     itemRowHolder.itemTitle.setText(sectionName);
 
 
         itemRowHolder.item.setOnClickListener(new View.OnClickListener() {

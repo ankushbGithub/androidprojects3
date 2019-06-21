@@ -58,6 +58,7 @@
                     <RatingBar
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         style="@style/Base.Widget.AppCompat.RatingBar.Small"
                         android:layout_alignParentRight="true"
                         android:rating="5"/>
@@ -83,6 +84,7 @@
                         android:gravity="start"
                         android:text="Ordered on 25 Jan 2019" />
                     <TextView
+                        android:id="@+id/tvAmt"
                         style="@style/stylePrimaryTextColor14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -95,16 +97,36 @@
 
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tvCategory"
+                        style="@style/stylePrimaryTextColor14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:text="Catering Services"
+                        />
+
+                    <TextView
+                        android:id="@+id/tvStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:gravity="center"
+                        android:textSize="18dp"
+                        android:visibility="visible"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimary"
+                        android:text="" />
+
+                </RelativeLayout>
+
                 <TextView
-                    android:id="@+id/tvConfirmDate"
-                    style="@style/stylePrimaryTextColor14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:text="Catering Services"
-                    />
-                <TextView
-                    android:id="@+id/tvdeliverDate"
+                    android:id="@+id/tvlocationAt"
                     style="@style/stylePrimaryTextColor14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -117,39 +139,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:visibility="visible"
-                        android:background="@drawable/full_rectangle"
-                        android:layout_alignParentRight="true">
-                        <TextView
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="6dp"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginRight="8dp"
-                            android:gravity="center"
-                            android:textSize="16dp"
-                            android:textColor="@color/white"
-                            android:text="Deny" />
-                    </LinearLayout>
                     <LinearLayout
                         android:id="@+id/llReorder"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginLeft="8dp"
+
                         android:gravity="center"
 
                         android:visibility="visible"
                         android:background="@drawable/full_rectangle_green"
                         android:layout_alignParentRight="true">
                         <TextView
+                            android:id="@+id/tvGreenTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="6dp"
@@ -160,24 +162,34 @@
                             android:textColor="@color/white"
                             android:text="Accept" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/llDeny"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="8dp"
+                        android:gravity="center"
+                        android:visibility="visible"
+                        android:background="@drawable/full_rectangle"
+                        android:layout_alignParentRight="true">
+                        <TextView
+
+                            android:id="@+id/tvRedTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="6dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:gravity="center"
+                            android:textSize="16dp"
+                            android:textColor="@color/white"
+                            android:text="Deny" />
+                    </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/tvStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:padding="6dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:gravity="center"
-                android:textSize="18dp"
-                android:visibility="visible"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimary"
-                android:text="" />
 
         </RelativeLayout>
 

@@ -1,0 +1,728 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background_color"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <TextView
+                android:id="@+id/toolbarTtile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="Vendor Details"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:visibility="visible" />
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appbar">
+
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btnProceed">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/img_ProfilePic"
+                            android:layout_width="@dimen/dim_100"
+                            android:layout_height="@dimen/dim_100"
+                            android:layout_gravity="center"
+                            android:src="@drawable/user"
+                            app:civ_border_color="@color/colorPrimary"
+                            app:civ_border_width="@dimen/dim_1"
+                            app:civ_fill_color="@color/white" />
+
+
+                        <Button
+                            android:id="@+id/btnUserPic"
+                            style="@style/styleWhiteTextColor14"
+                            android:layout_width="@dimen/dim_120"
+                            android:layout_height="@dimen/dim_40"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/dim_12"
+                            android:background="@drawable/button_drawable_blue"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:drawableLeft="@drawable/ic_action_camera"
+                            android:drawablePadding="@dimen/dim_4"
+                            android:fontFamily="@fonts/titilliumwebregular"
+                            android:padding="@dimen/dim_8"
+                            android:stateListAnimator="@null"
+                            android:text="Upload"
+                            android:visibility="gone"
+                            android:textAllCaps="false"
+                            android:textSize="@dimen/universal_text_size14" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:padding="8dp"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Name"
+                                android:textColor="@color/black"
+                                android:layout_centerVertical="true"/>
+
+                            <TextView
+                                android:id="@+id/tvName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="Name"
+                                android:layout_centerVertical="true"/>
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:padding="8dp"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Aadhar"
+                                android:textColor="@color/black"
+                                android:layout_centerVertical="true"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="Verified"
+                                android:textColor="@color/green"
+                                android:layout_centerVertical="true"/>
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:padding="8dp"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Pancard"
+                                android:textColor="@color/black"
+                                android:layout_centerVertical="true"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="Verified"
+                                android:textColor="@color/green"
+                                android:layout_centerVertical="true"/>
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:padding="8dp"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Firm Name"
+                                android:textColor="@color/black"
+                                android:layout_centerVertical="true"/>
+
+                            <TextView
+                                android:id="@+id/tvFirmName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="Firm Name"
+                                android:layout_centerVertical="true"/>
+                        </RelativeLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="vertical"
+                            android:padding="8dp"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Gallery"
+                                android:textColor="@color/black"
+                                android:layout_centerVertical="true"/>
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/rvImages"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dim_4"
+                                android:background="@color/white">
+
+                            </android.support.v7.widget.RecyclerView>
+
+
+                        </LinearLayout>
+
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:padding="8dp"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Category Name"
+                                android:textColor="@color/black"
+                                android:layout_centerVertical="true"/>
+
+                            <TextView
+                                android:id="@+id/tvCategoryName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="Category Name"
+                                android:layout_centerVertical="true"/>
+                        </RelativeLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recyclerViewSubCategory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:layout_marginTop="@dimen/dim_8"
+                            android:background="@color/white">
+
+                        </android.support.v7.widget.RecyclerView>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:padding="8dp"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Service At"
+                                android:textColor="@color/black"
+                                android:layout_centerVertical="true"/>
+
+                            <TextView
+                                android:id="@+id/tvServiceAt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="New Delhi"
+                                android:layout_centerVertical="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:padding="8dp"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Members Range"
+                                android:textColor="@color/black"
+                                android:layout_centerVertical="true"/>
+
+                            <TextView
+                                android:id="@+id/tvMembers"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="0-100"
+                                android:layout_centerVertical="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:padding="8dp"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Package Price"
+                                android:textColor="@color/black"
+                                android:layout_centerVertical="true"/>
+
+                            <TextView
+                                android:id="@+id/tvPackagePrice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="Rs. 0"
+                                android:layout_centerVertical="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:padding="8dp"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Price Range"
+                                android:textColor="@color/black"
+                                android:layout_centerVertical="true"/>
+
+                            <TextView
+                                android:id="@+id/tvPriceRange"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="Rs. 100- Rs. 200"
+                                android:layout_centerVertical="true"/>
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:padding="8dp"
+                            android:orientation="vertical"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Package Description"
+                                android:textColor="@color/black"
+                                android:layout_centerVertical="true"/>
+
+                            <TextView
+                                android:id="@+id/tvPackageDescription"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:layout_alignParentRight="true"
+                                android:text="Testing"
+                                android:layout_centerVertical="true"/>
+                        </LinearLayout>
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/tilFirmName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:visibility="gone">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/tieFirmName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@fonts/titilliumwebregular"
+                                android:hint="Firm Name"
+                                android:inputType="text"
+                                android:enabled="false"
+                                android:textSize="@dimen/universal_text_size14" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/tilGSTIN"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_marginTop="4dp">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/tieGSTIN"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@fonts/titilliumwebregular"
+                                android:hint="GSTIN Number"
+                                android:inputType="text"
+                                android:maxLength="15"
+                                android:enabled="false"
+                                android:textSize="@dimen/universal_text_size14" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/tilMobNum"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_marginTop="4dp">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/tieMobNum"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@fonts/titilliumwebregular"
+                                android:hint="Mobile NO."
+                                android:inputType="number"
+                                android:maxLength="10"
+                                android:enabled="false"
+                                android:textSize="@dimen/universal_text_size14" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/tilEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_marginTop="4dp">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/tieEmail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@fonts/titilliumwebregular"
+                                android:hint="Email"
+                                android:enabled="false"
+                                android:inputType="textEmailAddress"
+                                android:textSize="@dimen/universal_text_size14" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/tilPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            app:passwordToggleEnabled="true">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/tiePassword"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@fonts/titilliumwebregular"
+                                android:hint="Password"
+                                android:inputType="textPassword"
+                                android:paddingLeft="@dimen/dim_8"
+                                android:textSize="@dimen/universal_text_size14" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dim_4"
+                            android:orientation="vertical"
+                            android:padding="@dimen/dim_4"
+                            android:visibility="gone">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="@dimen/dim_4"
+                                android:paddingRight="@dimen/dim_4"
+                                android:paddingBottom="@dimen/dim_4"
+                                android:visibility="visible">
+
+                                <TextView
+                                    android:id="@+id/tvAdharHeading"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@fonts/titilliumwebregular"
+                                    android:text="Aadhaar Card"
+                                    android:textColor="@color/grey"
+                                    android:textSize="@dimen/universal_text_size14" />
+
+
+                            </RelativeLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:baselineAligned="false">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.6">
+
+                                    <android.support.v7.widget.CardView
+                                        android:layout_width="@dimen/dim_120"
+                                        android:layout_height="@dimen/dim_100"
+                                        app:cardCornerRadius="@dimen/dim_8"
+                                        app:cardElevation="0dp"
+                                        app:cardPreventCornerOverlap="true"
+                                        card_view:cardElevation="0dp">
+
+
+                                        <ImageView
+                                            android:id="@+id/ivAadhar"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:scaleType="fitXY"
+                                            android:src="@drawable/image_placeholder" />
+
+
+                                    </android.support.v7.widget.CardView>
+
+                                </LinearLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1">
+
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentBottom="true"
+                                        android:layout_marginLeft="@dimen/dim_4"
+                                        android:layout_marginRight="@dimen/dim_4"
+                                        android:baselineAligned="true">
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_margin="@dimen/dim_8"
+                                            android:layout_weight=".5"
+                                            android:visibility="invisible">
+
+
+                                            <Button
+                                                style="@style/styleWhiteTextColor14"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="@dimen/dim_40"
+                                                android:background="@drawable/button_drawable_blue"
+                                                android:backgroundTint="@color/colorPrimary"
+                                                android:drawableLeft="@drawable/menu_camera"
+                                                android:drawablePadding="@dimen/dim_4"
+                                                android:padding="@dimen/dim_8"
+                                                android:stateListAnimator="@null"
+                                                android:text="Camera"
+                                                android:textAllCaps="false" />
+
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="@dimen/dim_8"
+                                            android:layout_weight="1">
+
+                                            <Button
+                                                android:id="@+id/btnAdharUpload"
+                                                style="@style/styleWhiteTextColor14"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="@dimen/dim_40"
+                                                android:background="@drawable/button_drawable_blue"
+                                                android:backgroundTint="@color/colorPrimary"
+                                                android:drawableLeft="@drawable/ic_upload"
+                                                android:drawablePadding="@dimen/dim_4"
+                                                android:fontFamily="@fonts/titilliumwebregular"
+                                                android:padding="@dimen/dim_8"
+                                                android:stateListAnimator="@null"
+                                                android:text="Upload"
+                                                android:visibility="gone"
+                                                android:textAllCaps="false"
+                                                android:textSize="@dimen/universal_text_size14" />
+
+                                        </LinearLayout>
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dim_4"
+                            android:orientation="vertical"
+                            android:padding="@dimen/dim_4"
+                            android:visibility="gone">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="@dimen/dim_4"
+                                android:paddingRight="@dimen/dim_4"
+                                android:paddingBottom="@dimen/dim_4"
+                                android:visibility="visible">
+
+                                <TextView
+                                    android:id="@+id/tvPanHeading"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@fonts/titilliumwebregular"
+                                    android:text="PAN Card"
+                                    android:textColor="@color/grey"
+                                    android:textSize="@dimen/universal_text_size14" />
+
+
+                            </RelativeLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:baselineAligned="false">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.6">
+
+                                    <android.support.v7.widget.CardView
+                                        android:layout_width="@dimen/dim_120"
+                                        android:layout_height="@dimen/dim_100"
+                                        app:cardCornerRadius="@dimen/dim_8"
+                                        app:cardElevation="0dp"
+                                        app:cardPreventCornerOverlap="true"
+                                        card_view:cardElevation="0dp">
+
+
+                                        <ImageView
+                                            android:id="@+id/ivPan"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:scaleType="fitXY"
+                                            android:src="@drawable/image_placeholder" />
+
+
+                                    </android.support.v7.widget.CardView>
+
+                                </LinearLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1">
+
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentBottom="true"
+                                        android:layout_marginLeft="@dimen/dim_4"
+                                        android:layout_marginRight="@dimen/dim_4"
+                                        android:baselineAligned="true">
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_margin="@dimen/dim_8"
+                                            android:layout_weight=".5"
+                                            android:visibility="invisible">
+
+
+                                            <Button
+                                                style="@style/styleWhiteTextColor14"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="@dimen/dim_40"
+                                                android:background="@drawable/button_drawable_blue"
+                                                android:backgroundTint="@color/colorPrimary"
+                                                android:drawableLeft="@drawable/menu_camera"
+                                                android:drawablePadding="@dimen/dim_4"
+                                                android:padding="@dimen/dim_8"
+                                                android:stateListAnimator="@null"
+                                                android:text="Camera"
+                                                android:textAllCaps="false" />
+
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="@dimen/dim_8"
+                                            android:layout_weight="1">
+
+                                            <Button
+                                                android:id="@+id/btnPanUpload"
+                                                style="@style/styleWhiteTextColor14"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="@dimen/dim_40"
+                                                android:background="@drawable/button_drawable_blue"
+                                                android:backgroundTint="@color/colorPrimary"
+                                                android:drawableLeft="@drawable/ic_upload"
+                                                android:drawablePadding="@dimen/dim_4"
+                                                android:fontFamily="@fonts/titilliumwebregular"
+                                                android:padding="@dimen/dim_8"
+                                                android:stateListAnimator="@null"
+                                                android:text="Upload"
+                                                android:visibility="gone"
+                                                android:textAllCaps="false"
+                                                android:textSize="@dimen/universal_text_size14" />
+
+                                        </LinearLayout>
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/dim_4">
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btnProceed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@fonts/titilliumwebregular"
+            android:text="Book Now"
+            android:textColor="@color/white"
+            android:textSize="@dimen/universal_text_size14" />
+
+    </RelativeLayout>
+</RelativeLayout>

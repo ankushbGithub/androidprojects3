@@ -56,6 +56,7 @@
                         android:text="John Doe" />
 
                     <RatingBar
+                        android:id="@+id/ratingBar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/Base.Widget.AppCompat.RatingBar.Small"
@@ -76,13 +77,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp">
                     <TextView
-                        android:id="@+id/tvCreated"
+                        android:id="@+id/tvCategory"
                         style="@style/stylePrimaryTextColor14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:text="Category Name" />
                     <TextView
+                        android:id="@+id/tvPrice"
                         style="@style/stylePrimaryTextColor14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -95,7 +97,7 @@
                 </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/tvConfirmDate"
+                    android:id="@+id/tvService"
                     style="@style/stylePrimaryTextColor14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -103,7 +105,7 @@
                     android:text="Services"
                     />
                 <TextView
-                    android:id="@+id/tvdeliverDate"
+                    android:id="@+id/tvlocationAt"
                     style="@style/stylePrimaryTextColor14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -118,11 +120,12 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/llProfile"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:visibility="invisible"
+                        android:visibility="visible"
                         android:background="@drawable/full_rectangle"
                         android:layout_alignParentRight="true">
                         <TextView
@@ -135,7 +138,7 @@
                             android:gravity="center"
                             android:textSize="16dp"
                             android:textColor="@color/white"
-                            android:text="Reorder" />
+                            android:text="View Profile" />
                     </LinearLayout>
                     <LinearLayout
                         android:id="@+id/llReorder"

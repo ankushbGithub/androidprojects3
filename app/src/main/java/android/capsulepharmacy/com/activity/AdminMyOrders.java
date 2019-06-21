@@ -4,8 +4,9 @@ import android.app.ProgressDialog;
 import android.capsulepharmacy.com.APIClient;
 import android.capsulepharmacy.com.CapsuleAPI;
 import android.capsulepharmacy.com.R;
-import android.capsulepharmacy.com.adapter.AdminMyOrderAdapter;
+
 import android.capsulepharmacy.com.adapter.MyOrderAdapter;
+import android.capsulepharmacy.com.adapter.MyOrdersAdapter;
 import android.capsulepharmacy.com.base.BaseActivity;
 import android.capsulepharmacy.com.listener.MyListener;
 import android.capsulepharmacy.com.modal.MyOrderModal;
@@ -21,24 +22,30 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class AdminMyOrders extends BaseActivity implements View.OnClickListener,MyListener{
-    private String[] orderNo={"180001","180002","180003","180004","180005","180006","180007"};
+
     private RecyclerView recyclerviewCategory;
     private ArrayList<MyOrderModal> myOrderModals=new ArrayList<>();
-    private AdminMyOrderAdapter myOrderAdapter;
+    private MyOrdersAdapter myOrderAdapter;
     private LinearLayout llCanceled,llDelivered,llDispatched,llConfirmed;
     private View vCanceled,vDelivered,vDispatched,vConfirmed;
 
@@ -57,32 +64,32 @@ public class AdminMyOrders extends BaseActivity implements View.OnClickListener,
     protected void onResume() {
         super.onResume();
         if (Utility.isConnected()) {
-            String[] array={"a","b","c","d","e","f"};
-            for (int i=0;i<array.length;i++){
-                MyOrderModal myOrderModal=new MyOrderModal();
 
-                myOrderModal.setConfirmDate("");
-
-                myOrderModals.add(myOrderModal);
-            }
-            myOrderAdapter.notifyDataSetChanged();
-           // getOrders();
+            getOrders();
         }else {
             Utility.showToast("Please check your internet connectivity");
         }
     }
 
+
     private void getOrders() {
         final ProgressDialog progressDialog = new ProgressDialog(AdminMyOrders.this);
         progressDialog.show();
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("UserRole", Prefs.getStringPrefs(AppConstants.USER_ROLE));
+            jsonObject.put("VendorId", Prefs.getIntegerPrefs(AppConstants.USER_ID));
+            jsonObject.put("CustomerId", Prefs.getIntegerPrefs(AppConstants.USER_ID));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         OkHttpClient okHttpClient = APIClient.getHttpClient();
-        String url="";
-       /* if (Prefs.getStringPrefs("type").equalsIgnoreCase("admin")){
-            url = CapsuleAPI.WEBSERVICE_LOGIN+"/"+ "5b771d2e24871b7d518a37fd"+"/orders";
-        }else {*/
-             url = CapsuleAPI.WEBSERVICE_LOGIN + "/" + Prefs.getStringPrefs("id") + "/orders";
-      //  }
-        Request request = APIClient.getRequest(this, url);
+        String url = CapsuleAPI.WEB_SERVICE_BOOKING_LIST;
+        RequestBody requestBody = RequestBody.create(CapsuleAPI.JSON, jsonObject.toString());
+        Request request = APIClient.simplePostRequest(this, url,requestBody);
 
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -118,24 +125,17 @@ public class AdminMyOrders extends BaseActivity implements View.OnClickListener,
                                     @Override
                                     public void run() {
                                         myOrderModals.clear();
-                                        JSONObject object=jsonObject.optJSONObject("response");
-                                        JSONArray array=object.optJSONArray("orders");
-                                        for (int i=0;i<array.length();i++){
-                                            MyOrderModal myOrderModal=new MyOrderModal();
-                                            JSONObject object1=array.optJSONObject(i);
-                                            myOrderModal.setConfirmDate(object1.optString("confirm_date"));
-                                            myOrderModal.setCreatedDate(object1.optString("createdAt"));
-                                            myOrderModal.setDeliverDate(object1.optString("delivery_date"));
-                                            myOrderModal.setDispatchDate(object1.optString("dispatch_date"));
-                                            myOrderModal.setInvoiceImage(object1.optString("invoice_image"));
-                                            myOrderModal.setImage(object1.optString("order_id"));
-                                            myOrderModal.setReturnDate(object1.optString("return_date"));
-                                            myOrderModal.setWeekday(object1.optString("weekday"));
-                                            myOrderModal.setId(object1.optString("_id"));
-                                            myOrderModal.setOrderId(object1.optString("order_id"));
-                                            myOrderModal.setStatus(object1.optInt("status"));
-                                            myOrderModals.add(myOrderModal);
+                                        JSONArray jsonArray= null;
+                                        try {
+                                            jsonArray = new JSONArray(responseData);
+
+                                            Gson gson = new Gson();
+                                            Type type = new TypeToken<List<MyOrderModal>>(){}.getType();
+                                            myOrderModals = gson.fromJson(responseData, type);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
                                         }
+
                                         myOrderAdapter.notifyDataSetChanged();
 
                                     }
@@ -189,12 +189,27 @@ public class AdminMyOrders extends BaseActivity implements View.OnClickListener,
         });
     }
 
-    private void ReOrder(String orderid) {
+    private void ReOrder(String orderid, int status, int position) {
         final ProgressDialog progressDialog = new ProgressDialog(AdminMyOrders.this);
         progressDialog.show();
+
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("UserRole", Prefs.getStringPrefs(AppConstants.USER_ROLE));
+            jsonObject.put("VendorId", Prefs.getIntegerPrefs(AppConstants.USER_ID));
+            jsonObject.put("CustomerId", Prefs.getIntegerPrefs(AppConstants.USER_ID));
+            jsonObject.put("Status", status);
+            jsonObject.put("BookingNumber", orderid);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         OkHttpClient okHttpClient = APIClient.getHttpClient();
-        String url = CapsuleAPI.WEBSERVICE_UPLOAD+"order"+"/"+ orderid+"/reorder";
-        Request request = APIClient.getRequest(this, url);
+        String url = CapsuleAPI.WEB_SERVICE_BOOKING_Action;
+        RequestBody requestBody = RequestBody.create(CapsuleAPI.JSON, jsonObject.toString());
+        Request request = APIClient.simplePostRequest(this, url,requestBody);
 
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -229,11 +244,16 @@ public class AdminMyOrders extends BaseActivity implements View.OnClickListener,
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        if (jsonObject.optString("errorMsg").equalsIgnoreCase("")) {
-                                            Utility.showToast("New Order Placed Successfully");
+                                        if (jsonObject.optInt("code")==200) {
+
+                                            MyOrderModal myOrderModal=myOrderModals.get(position);
+                                            myOrderModal.setStatus(status);
+                                            myOrderModals.set(position,myOrderModal);
+                                            myOrderAdapter.notifyItemChanged(position);
+                                            Utility.showToast(jsonObject.optString("message"));
 
                                         }else {
-                                            Utility.showToast(jsonObject.optString("errorMsg"));
+                                            Utility.showToast(jsonObject.optString("message"));
                                         }
 
                                     }
@@ -312,7 +332,7 @@ public class AdminMyOrders extends BaseActivity implements View.OnClickListener,
         recyclerviewCategory.addItemDecoration(new SpacesItemDecoration(10));
 
 
-        myOrderAdapter = new AdminMyOrderAdapter(mContext, myOrderModals,this);
+        myOrderAdapter = new MyOrdersAdapter(mContext, myOrderModals,this);
         recyclerviewCategory.setAdapter(myOrderAdapter);
     }
 
@@ -375,9 +395,9 @@ public class AdminMyOrders extends BaseActivity implements View.OnClickListener,
     }
 
     @Override
-    public void onListen(int position) {
+    public void onListen(int position,String type) {
 
 
-        ReOrder(myOrderModals.get(position).getId());
+        ReOrder(myOrderModals.get(position).getBookingNumber(),3,position);
     }
 }

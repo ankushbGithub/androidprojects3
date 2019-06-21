@@ -49,6 +49,23 @@ public class CapsuleAPI {
     public static String WEB_SERVICE_VENDOR_CREATE= BASE + "Vendor";
     public static String WEB_SERVICE_VENDOR_UPDATE= BASE + "Vendor/";
     public static String WEB_SERVICE_CAT_LIST= BASE + "CategoryList";
+    public static String WEB_SERVICE_FORGOT_PASSWORD= BASE + "Account/ForgotPassword";
+    public static String WEB_SERVICE_RESET_PASSWORD= BASE + "Account/ResetPassword";
+    public static String WEB_SERVICE_CAT_UPDATE= BASE + "CategoryList/";
+    public static String WEB_SERVICE_USERROLE= BASE + "Dashboard/GetUserDetails/";
+    public static String WEB_SERVICE_BOOKING_LIST= BASE + "Booking/View";
+    public static String WEB_SERVICE_BOOKING_Action= BASE + "Booking/Action";
+    public static String WEB_SERVICE_BOOKING_Rating= BASE + "Booking/Rating";
+    public static String WEB_SERVICE_CAT_DELETE = BASE + "CategoryList/";
+    public static String WEB_SERVICE_SUB_CAT_UPDATE= BASE + "SubCategoryList/";
+    public static String WEB_SERVICE_SUB_CAT_DELETE = BASE + "SubCategoryList/";
+    public static String WEB_SERVICE_GALLERY_CREATE= BASE + "VendorGalleryModels";
+    public static String WEB_SERVICE_VENDOR_GALLERY_CREATE= BASE + "VendorGalleryModels";
+    public static String WEB_SERVICE_VENDOR_GET= BASE + "VendorGalleryModels/";
+    public static String WEB_SERVICE_BOOKING_FilterVendorList= BASE + "FilterVendorList/Detail";
+    public static String WEB_SERVICE_BOOKING_Submit= BASE + "Booking/Submit";
+    public static String WEB_SERVICE_BOOKING_GetDashboardImages= BASE + "Dashboard/GetDashboardImages";
+    public static String WEB_SERVICE_BOOKING_VendorDetails= BASE + "Booking/VendorSubCategory";
 
     public static final String WEBSERVICE_REGISTER = BASE + "user/register";
     public static final String WEBSERVICE_GET_DASHBOARD = BASE + "dashboard";

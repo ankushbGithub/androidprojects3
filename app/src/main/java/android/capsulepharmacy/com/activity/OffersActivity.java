@@ -179,8 +179,8 @@ public class OffersActivity extends BaseActivity implements View.OnClickListener
                                         for (int i=0;i<array.length();i++){
                                             MyOrderModal myOrderModal=new MyOrderModal();
                                             JSONObject object1=array.optJSONObject(i);
-                                            myOrderModal.setImage(object1.optString("image"));
-                                            myOrderModal.setTitle(object1.optString("name"));
+                                           // myOrderModal.setImage(object1.optString("image"));
+                                          //  myOrderModal.setTitle(object1.optString("name"));
                                             myOrderModals.add(myOrderModal);
                                         }
                                         myOrderAdapter.notifyDataSetChanged();

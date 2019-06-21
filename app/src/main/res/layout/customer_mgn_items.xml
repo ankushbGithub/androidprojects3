@@ -132,7 +132,7 @@
                                 android:clickable="true"
                                 android:drawableRight="@drawable/icon_calender"
                                 android:focusable="false"
-                                android:hint="DOB *"
+                                android:hint="DOB"
                                 android:inputType="text"
                                 android:lines="1"
                                 android:textSize="@dimen/universal_text_size16" />
@@ -245,7 +245,19 @@
                                 android:textSize="@dimen/universal_text_size16" />
 
                         </android.support.design.widget.TextInputLayout>
-                    </LinearLayout>
+
+                      </LinearLayout>
+
+                    <CheckBox
+                        android:id="@+id/checkbox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:paddingBottom="8dp"
+                        android:paddingTop="8dp"
+                        android:textColor="@color/colorAccent"
+                        android:text="Please accept Terms &amp; Conditions"/>
 
 
                 </LinearLayout>

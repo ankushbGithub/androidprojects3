@@ -13,7 +13,7 @@
             android:id="@+id/nav_myorder"
             android:icon="@drawable/my_order"
             android:visible="false"
-            android:title="My Bookings" />
+            android:title="Bookings History" />
         <item
             android:id="@+id/nav_trackorder"
             android:icon="@drawable/track_order"
@@ -23,7 +23,7 @@
             android:id="@+id/nav_reorder"
             android:icon="@drawable/reorder"
             android:visible="false"
-            android:title="History" />
+            android:title="Order Request" />
         <item
             android:id="@+id/nav_offers"
             android:icon="@drawable/offer"
@@ -44,6 +44,11 @@
             android:icon="@drawable/track_order"
             android:visible="false"
             android:title="Vendor Creation" />
+        <item
+            android:id="@+id/cat_creation"
+            android:icon="@drawable/ic_action_cat"
+            android:visible="false"
+            android:title="Category Creation" />
         <item
             android:id="@+id/customer_creation"
             android:icon="@drawable/icon_group"

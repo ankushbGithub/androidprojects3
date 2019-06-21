@@ -1,8 +1,11 @@
+/*
 package android.capsulepharmacy.com.notifications;
 
+*/
 /**
  * Created on 02-09-2018.
- */
+ *//*
+
 
 import android.capsulepharmacy.com.utility.Config;
 import android.capsulepharmacy.com.utility.Prefs;
@@ -15,10 +18,12 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
 
+*/
 /**
  * Created by Ravi Tamada on 08/08/16.
  * www.androidhive.info
- */
+ *//*
+
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     private static final String TAG = MyFirebaseInstanceIDService.class.getSimpleName();
 
@@ -52,3 +57,4 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         Prefs.putStringPrefs("fcmId",token);
     }
 }
+*/

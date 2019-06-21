@@ -99,8 +99,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@fonts/titilliumwebregular"
                             android:hint="Email Address"
-                            android:inputType="text"
-                            android:maxLength="10"
+                            android:inputType="textEmailAddress"
                             android:textSize="@dimen/universal_text_size14" />
                     </android.support.design.widget.TextInputLayout>
 

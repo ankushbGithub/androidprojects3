@@ -41,8 +41,8 @@ public class ReOrderAdapter extends RecyclerView.Adapter<ReOrderAdapter.ItemRowH
     @Override
     public void onBindViewHolder(ItemRowHolder itemRowHolder, final int i) {
 
-        final String sectionName = homeModals.get(i).getTitle();
-        itemRowHolder.itemTitle.setText(sectionName);
+       // final String sectionName = homeModals.get(i).getTitle();
+      //  itemRowHolder.itemTitle.setText(sectionName);
 
 
         itemRowHolder.item.setOnClickListener(new View.OnClickListener() {

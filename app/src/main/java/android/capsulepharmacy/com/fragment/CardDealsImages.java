@@ -5,9 +5,12 @@ import android.annotation.SuppressLint;
 import android.capsulepharmacy.com.R;
 import android.capsulepharmacy.com.utility.RoundedTransformation;
 import android.capsulepharmacy.com.utility.Utility;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +68,23 @@ public  class CardDealsImages extends Fragment {
         strImage = getArguments().getString("image");
         if (Utility.validateURL(strImage))
         Picasso.get().load(strImage).fit().into(image);
+
+
+        CardView rlCard=view.findViewById(R.id.relRow);
+        rlCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                try {
+//                    Intent i = new Intent(Intent.ACTION_VIEW);
+//                    i.setData(Uri.parse(strImage));
+//                    startActivity(i);
+//                } catch(Exception e){
+//                    e.printStackTrace();
+//                }
+            }
+        });
+
+
 
 
 

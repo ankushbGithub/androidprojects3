@@ -1,44 +1,43 @@
 package android.capsulepharmacy.com.adapter;
 
-import android.app.Activity;
-import android.capsulepharmacy.com.activity.AboutActivity;
-import android.capsulepharmacy.com.activity.AdminMyOrders;
-import android.capsulepharmacy.com.activity.LoginActivity;
-import android.capsulepharmacy.com.activity.MyOrders;
-import android.capsulepharmacy.com.activity.OffersActivity;
-import android.capsulepharmacy.com.activity.ReorderActivty;
-import android.capsulepharmacy.com.activity.TermsActivity;
-import android.capsulepharmacy.com.activity.TrackOrderActivity;
-import android.capsulepharmacy.com.modal.HomeModal;
 import android.capsulepharmacy.com.R;
+import android.capsulepharmacy.com.activity.BookVendor;
+import android.capsulepharmacy.com.activity.CategoryFilterActivity;
+import android.capsulepharmacy.com.activity.CategoryFilterActivity2Step;
+import android.capsulepharmacy.com.activity.LoginActivity;
+import android.capsulepharmacy.com.modal.HomeModal;
 import android.capsulepharmacy.com.utility.AppConstants;
 import android.capsulepharmacy.com.utility.Prefs;
+import android.capsulepharmacy.com.utility.Utility;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ItemRowHolder>{
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ItemRowHolder> {
     private ArrayList<HomeModal> homeModals;
     private Context mContext;
 
     /**
      * Instantiates a new Product main section adapter.
      *
-     * @param context              the context
+     * @param context    the context
      * @param HomeModals the product section modals
      */
     public HomeAdapter(Context context, ArrayList<HomeModal> HomeModals) {
         this.homeModals = HomeModals;
         this.mContext = context;
-
     }
 
     @Override
@@ -49,104 +48,95 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ItemRowHolder>
     }
 
     @Override
-    public void onBindViewHolder(final ItemRowHolder itemRowHolder,  int i) {
-
+    public void onBindViewHolder(final ItemRowHolder itemRowHolder, int i) {
         final String sectionName = homeModals.get(i).getTitle();
         itemRowHolder.itemTitle.setText(sectionName);
-        itemRowHolder.imageView.setBackgroundResource(homeModals.get(i).getImage());
+        if (Utility.validateURL(homeModals.get(i).getImage()))
+            Picasso.get().load(homeModals.get(i).getImage()).fit().into(itemRowHolder.imageView);
 
-        itemRowHolder.item.setOnClickListener(new View.OnClickListener() {
+        itemRowHolder.cvMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (Prefs.getStringPrefs(AppConstants.USER_ROLE).equalsIgnoreCase("customer")) {
+                    Log.e("Home Adapter clicked", "yes");
+                    if (Prefs.getStringPrefs(AppConstants.USER_NAME).equalsIgnoreCase("")) {
+                        Intent i = new Intent(mContext, LoginActivity.class);
+                        mContext.startActivity(i);
 
-                Intent i=null;
-                int position=itemRowHolder.getAdapterPosition();
-                if (!Prefs.getStringPrefs("type").equalsIgnoreCase("admin")) {
-                    if (position == 0) {
-                        if (Prefs.getStringPrefs(AppConstants.USER_NAME).equalsIgnoreCase("")) {
-                            i = new Intent(mContext, LoginActivity.class);
-
-                        } else {
-                            i = new Intent(mContext, MyOrders.class);
+//                        if ( sectionName.equalsIgnoreCase("Photographer")
+//                                || sectionName.equalsIgnoreCase("Flower Decoration")
+//                                || sectionName.equalsIgnoreCase("Balloon Decoration")
+//                                || sectionName.equalsIgnoreCase("Invitations Card")
+//                                || sectionName.equalsIgnoreCase("DJs")
+//                                || sectionName.equalsIgnoreCase("Ghodiwala")
+//                                || sectionName.equalsIgnoreCase("Dhool")
+//                                || sectionName.equalsIgnoreCase("Band")
+//                                || sectionName.equalsIgnoreCase("Persist")
+//                                || sectionName.equalsIgnoreCase("Pandit Ji")
+//                                || sectionName.equalsIgnoreCase("Tailoring")
+//                                || sectionName.equalsIgnoreCase("Persist/Pandit Ji")
+//                                || sectionName.equalsIgnoreCase("Band/Dhool/Ghodiwala")){
+//                             i = new Intent(mContext, CategoryFilterActivity2Step.class);
+//                        }
+//
+//                        i.putExtra("categoryId", homeModals.get(itemRowHolder.getAdapterPosition()).getId());
+//                        i.putExtra("categoryName", homeModals.get(itemRowHolder.getAdapterPosition()).getTitle());
+                    } else {
+                        Intent i = new Intent(mContext, CategoryFilterActivity.class);
+                        if ( sectionName.equalsIgnoreCase("Photographer")
+                                || sectionName.equalsIgnoreCase("Flower Decoration")
+                                || sectionName.equalsIgnoreCase("Balloon Decoration")
+                                || sectionName.equalsIgnoreCase("Invitations Card")
+                                || sectionName.equalsIgnoreCase("DJs")
+                                || sectionName.equalsIgnoreCase("Ghodiwala")
+                                || sectionName.equalsIgnoreCase("Dhool")
+                                || sectionName.equalsIgnoreCase("Band")
+                                || sectionName.equalsIgnoreCase("Persist")
+                                || sectionName.equalsIgnoreCase("Pandit Ji")
+                                || sectionName.contains("Pandit")
+                                || sectionName.equalsIgnoreCase("Tailoring")
+                                || sectionName.equalsIgnoreCase("Persist/Pandit Ji")
+                                || sectionName.equalsIgnoreCase("Band/Dhool/Ghodiwala")
+                                || sectionName.equalsIgnoreCase("Flower Decorators")
+                                || sectionName.equalsIgnoreCase("Follower Decorators")
+                                || sectionName.equalsIgnoreCase("Balloon Decorators")
+                                || sectionName.equalsIgnoreCase("Invitation Cards")
+                                || sectionName.equalsIgnoreCase("Band/Dhol/Ghodiwala")
+                        ){
+                            i = new Intent(mContext, CategoryFilterActivity2Step.class);
                         }
-
-                    } else if (position == 1) {
-                        if (Prefs.getStringPrefs(AppConstants.USER_NAME).equalsIgnoreCase("")) {
-                            i = new Intent(mContext, LoginActivity.class);
-
-                        } else {
-                            i = new Intent(mContext, MyOrders.class);
-                        }
-                    } else if (position == 2) {
-                        if (Prefs.getStringPrefs(AppConstants.USER_NAME).equalsIgnoreCase("")) {
-                            i = new Intent(mContext, LoginActivity.class);
-
-                        } else {
-                            i = new Intent(mContext, MyOrders.class);
-                        }
-                    } else if (position == 3) {
-                        if (Prefs.getStringPrefs(AppConstants.USER_NAME).equalsIgnoreCase("")) {
-                            i = new Intent(mContext, LoginActivity.class);
-
-                        } else {
-                            i = new Intent(mContext, MyOrders.class);
-                        }
-                    } else if (position == 4) {
-                        if (Prefs.getStringPrefs(AppConstants.USER_NAME).equalsIgnoreCase("")) {
-                            i = new Intent(mContext, LoginActivity.class);
-
-                        } else {
-                            i = new Intent(mContext, MyOrders.class);
-                        }
-                    } else if (position == 5) {
-                        if (Prefs.getStringPrefs(AppConstants.USER_NAME).equalsIgnoreCase("")) {
-                            i = new Intent(mContext, LoginActivity.class);
-
-                        } else {
-                            i = new Intent(mContext, MyOrders.class);
-                        }
+                        i.putExtra("categoryId", homeModals.get(itemRowHolder.getAdapterPosition()).getId());
+                        i.putExtra("categoryName", homeModals.get(itemRowHolder.getAdapterPosition()).getTitle());
+                        mContext.startActivity(i);
                     }
-                    mContext.startActivity(i);
-                }else {
-                    if (position == 0) {
-                        if (Prefs.getStringPrefs(AppConstants.USER_NAME).equalsIgnoreCase("")) {
-                             i = new Intent(mContext, LoginActivity.class);
 
-
-                        } else {
-                            i = new Intent(mContext, AdminMyOrders.class);
+                } else {
+                    if (Prefs.getStringPrefs(AppConstants.USER_NAME).equalsIgnoreCase("")) {
+                        Intent i = new Intent(mContext, LoginActivity.class);
+                        /*if ( sectionName.equalsIgnoreCase("Photographer")
+                                || sectionName.equalsIgnoreCase("Flower Decoration")
+                                || sectionName.equalsIgnoreCase("Balloon Decoration")
+                                || sectionName.equalsIgnoreCase("Invitations Card")
+                                || sectionName.equalsIgnoreCase("DJs")
+                                || sectionName.equalsIgnoreCase("Ghodiwala")
+                                || sectionName.equalsIgnoreCase("Dhool")
+                                || sectionName.equalsIgnoreCase("Band")
+                                || sectionName.equalsIgnoreCase("Persist")
+                                || sectionName.equalsIgnoreCase("Pandit Ji")
+                                || sectionName.equalsIgnoreCase("Tailoring")
+                                || sectionName.equalsIgnoreCase("Persist/Pandit Ji")
+                                || sectionName.equalsIgnoreCase("Band/Dhool/Ghodiwala")){
+                            i = new Intent(mContext, CategoryFilterActivity2Step.class);
                         }
-
-                    } else if (position == 1) {
-                        if (Prefs.getStringPrefs(AppConstants.USER_NAME).equalsIgnoreCase("")) {
-                            i = new Intent(mContext, LoginActivity.class);
-
-                        } else {
-                            i = new Intent(mContext, MyOrders.class);
-                        }
-                    } else if (position == 2) {
-                        if (Prefs.getStringPrefs(AppConstants.USER_NAME).equalsIgnoreCase("")) {
-                            i = new Intent(mContext, LoginActivity.class);
-
-                        } else {
-                            i = new Intent(mContext, MyOrders.class);
-                        }
-                    } else if (position == 3) {
-                        if (Prefs.getStringPrefs(AppConstants.USER_NAME).equalsIgnoreCase("")) {
-                            i = new Intent(mContext, LoginActivity.class);
-
-                        } else {
-                            i = new Intent(mContext, MyOrders.class);
-                        }
+                        i.putExtra("categoryId", homeModals.get(itemRowHolder.getAdapterPosition()).getId());
+                        i.putExtra("categoryName", homeModals.get(itemRowHolder.getAdapterPosition()).getTitle());*/
+                        mContext.startActivity(i);
                     }
-                    mContext.startActivity(i);
                 }
-             /*   Intent i=new Intent(mContext, ActivityContentTab.class);
-                mContext.startActivity(i);*/
+
+
             }
         });
-
-
 
 
 //      Glide.with(mContext)
@@ -173,6 +163,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ItemRowHolder>
          */
         protected TextView itemTitle;
         private ImageView imageView;
+        private CardView cvMain;
 
         /**
          * Instantiates a new Item row holder.
@@ -181,11 +172,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ItemRowHolder>
          */
         public ItemRowHolder(View view) {
             super(view);
-            item=itemView;
+            item = itemView;
             this.itemTitle = (TextView) view.findViewById(R.id.textViewHeader);
-            this.imageView=(ImageView) view.findViewById(R.id.image);
-
-
+            this.imageView = (ImageView) view.findViewById(R.id.image);
+            this.cvMain = (CardView) view.findViewById(R.id.cvMain);
 
 
         }

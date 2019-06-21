@@ -6,6 +6,7 @@ import android.capsulepharmacy.com.R;
 import android.capsulepharmacy.com.base.BaseActivity;
 import android.capsulepharmacy.com.utility.AppConstants;
 import android.capsulepharmacy.com.utility.Prefs;
+import android.capsulepharmacy.com.utility.Utility;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,14 +29,16 @@ import com.nineoldandroids.animation.ObjectAnimator;
 import com.viksaa.sssplash.lib.cnst.Flags;
 import com.viksaa.sssplash.lib.model.ConfigSplash;
 
+import okhttp3.internal.Util;
+
 public class SplashActivity extends RunTimePermissionActivity{
     private static final int REQUEST_PERMISSIONS = 20;
     private static final String[] ALL_PERMISSIONS = {
             Manifest.permission.READ_PHONE_STATE,
-            android.Manifest.permission.READ_EXTERNAL_STORAGE,
-            android.Manifest.permission.INTERNET,
-            android.Manifest.permission.ACCESS_NETWORK_STATE,
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.INTERNET,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
     };
     @Override
@@ -53,36 +56,9 @@ public class SplashActivity extends RunTimePermissionActivity{
 
 
 
-        ImageView image=findViewById(R.id.image);
-        ObjectAnimator moveAnim = ObjectAnimator.ofFloat(image, "Y", 500);
-        moveAnim.setDuration(2000);
-        moveAnim.setInterpolator(new BounceInterpolator());
-        moveAnim.start();
-        moveAnim.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    SplashActivity.super.requestAppPermissions(ALL_PERMISSIONS, R.string.runtime_permissions_txt, REQUEST_PERMISSIONS, 0);
-                }else {
-                    //  gotoNext();
-                }
-            }
-        });
-
-        TextView text=findViewById(R.id.text);
-        AnimatorSet set = new AnimatorSet();
-        set.playTogether(
-                ObjectAnimator.ofFloat(text, "scaleX", 1.0f, 2.0f)
-                        .setDuration(2000),
-                ObjectAnimator.ofFloat(text, "scaleY", 1.0f, 2.0f)
-                        .setDuration(2000)
-               // ObjectAnimator.ofObject(text, "backgroundColor", new ArgbEvaluator(),
-        //  /*Red*/0xFFFF8080, /*Blue*/0xFF8080FF)
-                        .setDuration(2000)
-        );
-        set.start();
 
 
+        gotoNext();
 
 
     }
@@ -93,19 +69,28 @@ public class SplashActivity extends RunTimePermissionActivity{
             @Override
             public void run() {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(1800);
 
                    /* if (Prefs.getStringPrefs("id").equalsIgnoreCase("")) {
                         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(intent);
                         finish();
                     } else {*/
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                   if (Utility.validateString(Prefs.getStringPrefs(AppConstants.USER_NAME))){
+                       Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                       intent.putExtra("mainScreen",1);
+                       startActivity(intent);
 
-                        intent.putExtra("mainScreen",1);
-                        startActivity(intent);
+                       finish();
+                   }else {
+                       Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
-                        finish();
+                      // intent.putExtra("mainScreen",1);
+                       startActivity(intent);
+
+                       finish();
+                   }
+
                   // }
                 } catch (Exception e) {
                     e.printStackTrace();

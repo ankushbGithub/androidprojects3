@@ -121,13 +121,7 @@ public class AdminHomeFragment extends Fragment {
     }
 
     private void setItems() {
-        for (int i = 0; i < titles.length; i++) {
-            HomeModal homeModal = new HomeModal();
-            homeModal.setTitle(titles[i]);
-            homeModal.setImage(images[i]);
-            homeModals.add(homeModal);
 
-        }
         homeAdapter.notifyDataSetChanged();
     }
 

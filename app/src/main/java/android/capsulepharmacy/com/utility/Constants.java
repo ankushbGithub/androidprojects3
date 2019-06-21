@@ -437,6 +437,7 @@ public class Constants {
     public static String PanFile = "PanFile";
     public static String AadhaarFile = "AadhaarFile";
     public static String Password = "Password";
+    public static String passwordCode = "Code";
 
 
 }

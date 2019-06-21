@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     android:background="@color/app_background_color">
@@ -40,9 +42,11 @@
 
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nestedScroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/btnProceed"
+            android:layout_above="@+id/llBtn"
+            android:layout_marginBottom="8dp"
 
 
             >
@@ -65,17 +69,27 @@
                    >
 
                  <TextView
+                     android:id="@+id/tvCustomerName"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:text="Ankush Bansal"
                      android:textSize="@dimen/dim_16"
+                     android:visibility="gone"
                      android:textColor="@color/white"
                      />
-
                    <TextView
+                       android:id="@+id/tvVendorName"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:text="Date : 24-09-1992"
+                       android:text="Vendor Name"
+                       android:textSize="@dimen/dim_16"
+                       android:textColor="@color/white"
+                       />
+                   <TextView
+                       android:id="@+id/tvDate"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Date : "
                        android:layout_alignParentRight="true"
                        android:textSize="@dimen/dim_16"
                        android:textColor="@color/white"
@@ -88,13 +102,7 @@
                     android:layout_height="wrap_content"
                     >
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Vendor Name"
-                        android:textSize="@dimen/dim_16"
-                        android:textColor="@color/white"
-                        />
+
 
 
 
@@ -102,6 +110,7 @@
                 </RelativeLayout>
 
                 <TextView
+                    android:id="@+id/tvCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Party Decoration"
@@ -109,9 +118,11 @@
                     android:textColor="@color/white"
                     />
                 <TextView
+                    android:id="@+id/tvService"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Party"
+                    android:visibility="gone"
                     android:textSize="@dimen/dim_16"
                     android:textColor="@color/white"
                     />
@@ -120,17 +131,20 @@
                     android:layout_height="wrap_content"
                     >
                 <TextView
+                    android:id="@+id/tvLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="New Delhi, India"
+                    android:text=""
+                    android:visibility="gone"
                     android:textSize="@dimen/dim_16"
                     android:textColor="@color/white"
                     />
                     <TextView
+                        android:id="@+id/tvTotalAmt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:text="Total Amt Rs 4567"
+                        android:text="Total Amt Rs "
                         android:textSize="@dimen/dim_16"
                         android:textColor="@color/white"
                         />
@@ -139,44 +153,258 @@
 
             </LinearLayout>
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tvMembers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:layout_marginTop="4dp">
+
+                    <EditText
+                        android:id="@+id/input_Members"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter Members"
+                        android:inputType="number" />
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
                     android:id="@+id/tvEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp">
+                    android:padding="12dp">
 
                     <EditText
                         android:id="@+id/input_Email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Enter Contact Email"
-                        android:focusable="false"
                         android:inputType="numberDecimal" />
                 </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/tvMobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp">
+                    android:padding="12dp">
 
                     <EditText
                         android:id="@+id/input_Mobile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Enter Contact Mobile"
-                        android:focusable="false"
                         android:inputType="numberDecimal" />
                 </android.support.design.widget.TextInputLayout>
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/tvConfirmDate"
+               <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tvRemarks"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp">
+                    android:padding="12dp">
 
                     <EditText
-                        android:id="@+id/input_confirm"
+                        android:id="@+id/input_remarks"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Enter amount to pay"
+                        android:hint="Remarks"
+                        android:inputType="text" />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerViewSubCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+
+
+                </android.support.v7.widget.RecyclerView>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dim_12">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Amount"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/dim_16"
+                        />
+                    <TextView
+                        android:id="@+id/tvTotalAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="Rs. 0"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/dim_16"
+                        />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dim_12">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total GST 18%"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/dim_16"
+                        />
+                    <TextView
+                        android:id="@+id/tvTotalGST"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="Rs. 0"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/dim_16"
+                        />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dim_12">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Amount"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/dim_16"
+                        />
+                    <TextView
+                        android:id="@+id/tvTotalPay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="Rs. 0"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/dim_16"
+                        />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dim_12">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Available Redeem Points"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/dim_16"
+                        />
+                    <TextView
+                        android:id="@+id/tvPoints"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="0 P"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/dim_16"
+                        />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dim_12"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Rounding off"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/dim_16"
+                        />
+                    <TextView
+                        android:id="@+id/tvTotalRound"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="Rs. 0"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/dim_16"
+                        />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dim_12">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Payable Amount"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/dim_16"
+                        />
+                    <TextView
+                        android:id="@+id/tvTotalPayAfter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="Rs. 0"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/dim_16"
+                        />
+
+                </RelativeLayout>
+
+                <RadioGroup
+                    android:id="@+id/radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dim_12"
+                    >
+                    <RadioButton
+                        android:id="@+id/first"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:background="@color/white"
+                        android:button="@null"
+                        android:drawablePadding="10dp"
+                        android:drawableLeft="@android:drawable/btn_radio"
+                        android:text="Pay 30%"
+                        android:textColor="@color/black"
+                        android:textSize="16dip"
+                        android:gravity="left|center_vertical"/>
+                    <RadioButton
+                        android:id="@+id/second"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="8dp"
+                        android:background="@color/white"
+                        android:button="@null"
+                        android:drawablePadding="10dp"
+                        android:drawableLeft="@android:drawable/btn_radio"
+                        android:text="Pay Full "
+                        android:textColor="@color/black"
+                        android:textSize="16dip"
+                        android:gravity="left|center_vertical"/>
+
+
+                </RadioGroup>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tvPayAmt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+
+                    <EditText
+                        android:id="@+id/input_payAmt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Amount to pay"
+                        android:enabled="false"
                         android:inputType="numberDecimal" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -184,7 +412,7 @@
                     android:id="@+id/tvPayLater"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp">
+                    android:padding="12dp">
 
                     <EditText
                         android:id="@+id/input_paylater"
@@ -194,22 +422,46 @@
                         android:focusable="false"
                         android:inputType="numberDecimal" />
                 </android.support.design.widget.TextInputLayout>
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/btnProceed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/full_rectangle"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:padding="12dp"
-                    android:layout_gravity="center"
-                    android:text="Pay Now"
-                    android:textColor="@color/white"
-                    android:textSize="14dp" />
+
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
 
+        <LinearLayout
+            android:id="@+id/llBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="16dp">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btnSummary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/full_rectangle"
+                android:backgroundTint="@color/colorPrimary"
+                android:padding="12dp"
+                android:layout_marginLeft="8dp"
+                android:layout_gravity="center"
+                android:text="Summary"
+                android:textColor="@color/white"
+                android:textSize="14dp" />
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btnProceed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="8dp"
+                android:background="@drawable/full_rectangle"
+                android:backgroundTint="@color/colorPrimary"
+                android:padding="12dp"
+                android:layout_gravity="center"
+                android:text="Pay Now"
+                android:textColor="@color/white"
+                android:textSize="14dp" />
+        </LinearLayout>
 
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

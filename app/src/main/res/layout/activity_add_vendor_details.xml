@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
     android:background="@color/app_background_color"
     android:fitsSystemWindows="true">
 
@@ -42,7 +43,7 @@
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/btnPlaceOrder">
+            android:layout_above="@+id/btnSubmit">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -94,7 +95,6 @@
                             android:paddingLeft="10dp"
                             android:paddingEnd="10dp"
                             android:paddingRight="10dp"
-
                             android:text="New Address"
                             android:textColor="@color/colorPrimary"
                             android:textSize="16dp" />
@@ -155,7 +155,6 @@
                             android:paddingLeft="10dp"
                             android:paddingEnd="10dp"
                             android:paddingRight="10dp"
-
                             android:text="Bank Details"
                             android:textColor="@color/colorPrimary"
                             android:textSize="16dp" />
@@ -198,6 +197,7 @@
 
                     </android.support.v7.widget.RecyclerView>
 
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -238,6 +238,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dim_4"
                             android:clickable="true"
+                            android:visibility="gone"
                             android:drawableEnd="@drawable/ic_action_drop"
                             android:drawableRight="@drawable/arrowdown"
                             android:focusable="false"
@@ -248,6 +249,164 @@
 
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lMinMem"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:visibility="gone"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:padding="8dp"
+                            android:text="Minimum Members"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp"
+                            android:visibility="visible" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dim_8">
+
+                            <EditText
+                                android:id="@+id/etMinMem"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@fonts/titilliumwebregular"
+                                android:hint="Enter minimum members"
+                                android:inputType="number"
+                                android:textSize="@dimen/universal_text_size14" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lMaxMem"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:padding="8dp"
+                            android:text="Maximum Members"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp"
+                            android:visibility="visible" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dim_8">
+
+                            <EditText
+                                android:id="@+id/etMaxMem"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@fonts/titilliumwebregular"
+                                android:hint="Enter maximum members"
+                                android:inputType="number"
+                                android:textSize="@dimen/universal_text_size14" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lSubCatList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dim_8"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.7"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvSubCatHeader"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:padding="@dimen/dim_4"
+                                    android:text="Sub Category"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="@dimen/universal_text_size16"
+                                    android:visibility="visible" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:padding="@dimen/dim_4"
+                                    android:text="Description"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="@dimen/universal_text_size16"
+                                    android:visibility="visible" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvPRice"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:padding="@dimen/dim_4"
+                                    android:text="Price"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="@dimen/universal_text_size16"
+                                    android:visibility="visible" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rvSubCatList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white">
+
+                        </android.support.v7.widget.RecyclerView>
+                    </LinearLayout>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -291,6 +450,158 @@
 
 
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:padding="8dp"
+                            android:text="Complete Package Price"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp"
+                            android:visibility="visible" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dim_8">
+
+                            <EditText
+                                android:id="@+id/etPackagePrice"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@fonts/titilliumwebregular"
+                                android:hint="Enter package price"
+                                android:inputType="numberDecimal"
+                                android:textSize="@dimen/universal_text_size14" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:padding="8dp"
+                            android:text="Package Description"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp"
+                            android:visibility="visible" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dim_8">
+
+                            <EditText
+                                android:id="@+id/etPackDesp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@fonts/titilliumwebregular"
+                                android:hint="Enter Package Description"
+                                android:inputType="textMultiLine"
+                                android:textSize="@dimen/universal_text_size14" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:padding="8dp"
+                            android:text="Minimum price"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp"
+                            android:visibility="visible" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dim_8">
+
+                            <EditText
+                                android:id="@+id/etMinPrice"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@fonts/titilliumwebregular"
+                                android:hint="Enter Minimum price"
+                                android:inputType="numberDecimal"
+                                android:textSize="@dimen/universal_text_size14" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:padding="8dp"
+                            android:text="Maximum price"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp"
+                            android:visibility="visible" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dim_8">
+
+                            <EditText
+                                android:id="@+id/etMaxPrice"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@fonts/titilliumwebregular"
+                                android:hint="Enter Maximum price"
+                                android:inputType="numberDecimal"
+                                android:textSize="@dimen/universal_text_size14" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -372,6 +683,17 @@
 
                 </LinearLayout>
 
+                <CheckBox
+                    android:id="@+id/checkbox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="Please accept Terms &amp; Conditions"/>
+
 
             </LinearLayout>
 
@@ -385,7 +707,7 @@
             android:layout_marginTop="16dp"
             android:background="@color/colorPrimary"
             android:padding="12dp"
-            android:text="Submit"
+            android:text="Proceed"
             android:textColor="@color/white"
             android:textSize="14dp" />
 

@@ -49,18 +49,18 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
         AddressModal addressModal = homeModals.get(i);
 
         final String sectionName = addressModal.getName();
-
         itemRowHolder.rbSelect.setChecked(homeModals.get(i).isSelected());
-        itemRowHolder.itemTitle.setText(sectionName);
+        itemRowHolder.itemTitle.setText(sectionName.trim());
+
         if (Utility.validateString(homeModals.get(i).getAlternateMobileNo()))
-        itemRowHolder.mobile.setText(homeModals.get(i).getMobileNo()+", "+homeModals.get(i).getAlternateMobileNo());
+        itemRowHolder.mobile.setText(homeModals.get(i).getMobileNo().trim()+", "+homeModals.get(i).getAlternateMobileNo().trim());
         else
-            itemRowHolder.mobile.setText(homeModals.get(i).getMobileNo());
+            itemRowHolder.mobile.setText(homeModals.get(i).getMobileNo().trim());
 
         if (Utility.validateString(homeModals.get(i).getLandmark())){
-            itemRowHolder.address.setText(homeModals.get(i).getFlatNoOrBuildingName()+", "+homeModals.get(i).getAreaOrStreet()+", "+homeModals.get(i).getLandmark()+", "+homeModals.get(i).getCity()+", "+homeModals.get(i).getState()+", "+homeModals.get(i).getPostcode());
+            itemRowHolder.address.setText(homeModals.get(i).getFlatNoOrBuildingName().trim()+", "+homeModals.get(i).getAreaOrStreet().trim()+", "+homeModals.get(i).getLandmark().trim()+", "+homeModals.get(i).getCity().trim()+", "+homeModals.get(i).getState().trim()+", "+homeModals.get(i).getPostcode().trim());
         }else {
-            itemRowHolder.address.setText(homeModals.get(i).getFlatNoOrBuildingName()+", "+homeModals.get(i).getAreaOrStreet()+", "+homeModals.get(i).getCity()+", "+homeModals.get(i).getState()+", "+homeModals.get(i).getPostcode());
+            itemRowHolder.address.setText(homeModals.get(i).getFlatNoOrBuildingName().trim()+", "+homeModals.get(i).getAreaOrStreet().trim()+", "+homeModals.get(i).getCity().trim()+", "+homeModals.get(i).getState().trim()+", "+homeModals.get(i).getPostcode().trim());
         }
 
         itemRowHolder.item.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +83,6 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
             }
         });
         onBind = false;
-
     }
 
     @Override

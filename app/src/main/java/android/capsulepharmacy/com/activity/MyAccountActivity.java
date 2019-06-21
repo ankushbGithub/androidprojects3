@@ -1,6 +1,7 @@
 package android.capsulepharmacy.com.activity;
 
 import android.capsulepharmacy.com.R;
+import android.capsulepharmacy.com.utility.AppConstants;
 import android.capsulepharmacy.com.utility.Prefs;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,10 +26,12 @@ public class MyAccountActivity extends AppCompatActivity {
         EditText name=findViewById(R.id.input_name);
         EditText email=findViewById(R.id.input_email);
         EditText mobile=findViewById(R.id.input_mobile);
+        EditText input_points=findViewById(R.id.input_points);
 
-        name.setText(Prefs.getStringPrefs("name"));
-        email.setText(Prefs.getStringPrefs("email"));
-        mobile.setText(Prefs.getStringPrefs("mobile"));
+        name.setText(Prefs.getStringPrefs(AppConstants.NAME));
+        email.setText(Prefs.getStringPrefs(AppConstants.USER_NAME));
+        mobile.setText(Prefs.getStringPrefs(AppConstants.USER_ROLE));
+      //  input_points.setText(Prefs.getStringPrefs(AppConstants.USER_POINTS));
     }
 
     public void setHeader() {

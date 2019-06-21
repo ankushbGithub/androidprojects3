@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="Login as Customer"
+                android:text="Login"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:visibility="visible" />
@@ -74,7 +74,7 @@
                         android:id="@+id/input_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Email or Phone"
+                        android:hint="Email"
                         android:inputType="textEmailAddress" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -90,7 +90,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Password"
-                        android:inputType="textEmailAddress" />
+                        android:inputType="textPassword" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.v7.widget.AppCompatButton
@@ -106,7 +106,7 @@
                     android:textSize="14dp" />
 
                 <TextView
-                    android:id="@+id/link_signup"
+                    android:id="@+id/tvForgotPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
@@ -124,16 +124,31 @@
 
                 </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/tvRegister"
-                    android:layout_width="match_parent"
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/tvRegisterAsCustomer"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
                     android:layout_marginTop="16dp"
-                    android:gravity="center"
-                    android:text="Register"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="20dip"></TextView>
+                    android:background="@drawable/button_round_all"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:padding="12dp"
+                    android:text="@string/register_as_customer"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/tvRegisterAsVendor"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/button_round_all"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:padding="12dp"
+                    android:text="@string/register_as_vendor"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
             </LinearLayout>
 
 

@@ -58,6 +58,16 @@ public class APIClient {
                 .url(url)
                 .build();
     }
+    public static Request getGalleryPostRequest(Context context, String url, RequestBody requestBody) {
+        String authKey = Prefs.getStringPrefs(AppConstants.ACCESS_TOKEN);
+        String bearerAuth = "bearer"+" "+authKey;
+        return new Request.Builder()
+                .header(CapsuleAPI.CONTENT_TYPE, CapsuleAPI.APPLICATION_JSON)
+                .header(CapsuleAPI.AUTHORIZATION, bearerAuth)
+                .url(url)
+                .post(requestBody)
+                .build();
+    }
 
     /**
      * Gets kyc request.
@@ -93,9 +103,12 @@ public class APIClient {
                 .build();
     }
     public static Request simplePostRequest(Context context, String url, RequestBody requestBody) {
+        String authKey = Prefs.getStringPrefs(AppConstants.ACCESS_TOKEN);
+        String bearerAuth = "bearer"+" "+authKey;
         return new Request.Builder()
                 .header(CapsuleAPI.CONTENT_TYPE, CapsuleAPI.APPLICATION_JSON)
                 .header(CapsuleAPI.ACCEPT, CapsuleAPI.APPLICATION_JSON)
+                .header(CapsuleAPI.AUTHORIZATION, bearerAuth)
                 .url(url)
                 .post(requestBody)
                 .build();

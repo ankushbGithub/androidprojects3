@@ -1,3 +1,4 @@
+/*
 package android.capsulepharmacy.com.adapter;
 
 import android.capsulepharmacy.com.R;
@@ -25,12 +26,14 @@ public class AdminMyOrderAdapter extends RecyclerView.Adapter<AdminMyOrderAdapte
     private Context mContext;
     private MyListener myListener;
 
-    /**
+    */
+/**
      * Instantiates a new Product main section adapter.
      *
      * @param context              the context
      * @param MyOrderModals the product section modals
-     */
+     *//*
+
     public AdminMyOrderAdapter(Context context, ArrayList<MyOrderModal> MyOrderModals, MyListener myListener) {
         this.homeModals = MyOrderModals;
         this.myListener=myListener;
@@ -58,6 +61,7 @@ public class AdminMyOrderAdapter extends RecyclerView.Adapter<AdminMyOrderAdapte
             itemRowHolder.llReview.setVisibility(View.INVISIBLE);
             itemRowHolder.llReorder.setVisibility(View.VISIBLE);
         }
+*/
 /*
 
         itemRowHolder.tvCreated.setText("Created on - "+Utility.getFormattedDates(homeModals.get(i).getCreatedDate(), AppConstants.utc_format,AppConstants.format2));
@@ -81,7 +85,8 @@ public class AdminMyOrderAdapter extends RecyclerView.Adapter<AdminMyOrderAdapte
         }
 
         itemRowHolder.tvStatus.setText(strStatus+"");
-*/
+*//*
+
 
 
         itemRowHolder.item.setOnClickListener(new View.OnClickListener() {
@@ -117,24 +122,30 @@ public class AdminMyOrderAdapter extends RecyclerView.Adapter<AdminMyOrderAdapte
         return (null != homeModals ? homeModals.size() : 0);
     }
 
-    /**
+    */
+/**
      * The type Item row holder.
-     */
+     *//*
+
     public class ItemRowHolder extends RecyclerView.ViewHolder {
 
         private final View item;
-        /**
+        */
+/**
          * The Item title.
-         */
+         *//*
+
         protected TextView itemTitle,tvCreated,tvConfirmDate,tvDeliverDate,tvStatus;
         private ImageView imageView;
         private LinearLayout llReorder,llReview;
 
-        /**
+        */
+/**
          * Instantiates a new Item row holder.
          *
          * @param view the view
-         */
+         *//*
+
         public ItemRowHolder(View view) {
             super(view);
             item=itemView;
@@ -154,3 +165,4 @@ public class AdminMyOrderAdapter extends RecyclerView.Adapter<AdminMyOrderAdapte
 
     }
 }
+*/

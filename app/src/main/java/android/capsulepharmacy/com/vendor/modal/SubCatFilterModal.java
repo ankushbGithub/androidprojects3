@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class SubCatFilterModal implements Parcelable {
     public String title;
-    public String code;
+    public int SubCategoryId;
     public boolean isSelected;
 
 
@@ -17,14 +17,14 @@ public class SubCatFilterModal implements Parcelable {
 
     protected SubCatFilterModal(Parcel in) {
         title = in.readString();
-        code = in.readString();
+        SubCategoryId = in.readInt();
         isSelected = in.readByte() != 0;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
-        dest.writeString(code);
+        dest.writeInt(SubCategoryId);
         dest.writeByte((byte) (isSelected ? 1 : 0));
     }
 

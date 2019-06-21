@@ -45,25 +45,25 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.It
     @Override
     public void onBindViewHolder(final ItemRowHolder itemRowHolder, final int i) {
 
-        final String sectionName = homeModals.get(i).getOrderId();
+     /*   final String sectionName = homeModals.get(i).getOrderId();
         itemRowHolder.itemTitle.setText(sectionName);
         itemRowHolder.tvCreated.setText("Created on "+homeModals.get(i).getCreatedDate());
         itemRowHolder.tvConfirmDate.setText("confirmed on "+homeModals.get(i).getConfirmDate());
-        itemRowHolder.tvDeliverDate.setText("deliver on "+homeModals.get(i).getDeliverDate());
+        itemRowHolder.tvDeliverDate.setText("deliver on "+homeModals.get(i).getDeliverDate());*/
 
 
         itemRowHolder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                Intent i=new Intent(mContext, OrderDetailActivity.class);
-               i.putExtra("orderId",homeModals.get(itemRowHolder.getAdapterPosition()).getOrderId());
+               i.putExtra("orderId",homeModals.get(itemRowHolder.getAdapterPosition()).getBookingNumber());
                 mContext.startActivity(i);
             }
         });
         itemRowHolder.llReorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myListener.onListen(i);
+                myListener.onListen(i,"");
             }
         });
 

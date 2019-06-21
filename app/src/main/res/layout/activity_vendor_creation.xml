@@ -120,7 +120,6 @@
                                 android:fontFamily="@fonts/titilliumwebregular"
                                 android:hint="Firm Name"
                                 android:inputType="text"
-                                android:maxLength="10"
                                 android:textSize="@dimen/universal_text_size14" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -152,7 +151,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@fonts/titilliumwebregular"
-                                android:hint="Mobile NO."
+                                android:hint="Mobile NO. *"
                                 android:inputType="number"
                                 android:maxLength="10"
                                 android:textSize="@dimen/universal_text_size14" />
@@ -169,7 +168,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@fonts/titilliumwebregular"
-                                android:hint="Email"
+                                android:hint="Email *"
                                 android:inputType="textEmailAddress"
                                 android:textSize="@dimen/universal_text_size14" />
                         </android.support.design.widget.TextInputLayout>
@@ -185,7 +184,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@fonts/titilliumwebregular"
-                                android:hint="Password"
+                                android:hint="Password *"
                                 android:inputType="textPassword"
                                 android:paddingLeft="@dimen/dim_8"
                                 android:textSize="@dimen/universal_text_size14" />

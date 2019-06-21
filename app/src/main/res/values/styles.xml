@@ -14,6 +14,10 @@
 
 
     </style>
+
+    <style name="toolbarRipple" parent="@style/ThemeOverlay.AppCompat.Light">
+        <item name="colorControlHighlight">@color/shadows</item>
+    </style>
     <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
         <!-- Gets rid of the search icon -->
         <item name="searchIcon">@drawable/ic_action_search</item>
@@ -215,7 +219,22 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-    <style name="MaterialDialogSheet" parent="@android:style/Theme.Dialog"><item name="android:windowIsTranslucent">true</item><item name="android:windowBackground">@android:color/transparent</item><item name="android:windowContentOverlay">@null</item><item name="android:windowNoTitle">true</item><item name="android:backgroundDimEnabled">true</item><item name="android:windowIsFloating">false</item><item name="android:windowAnimationStyle">@style/MaterialDialogSheetAnimation</item></style>
+   <!-- <style name="MaterialDialogSheet" parent="@android:style/Theme.Dialog"><item name="android:windowIsTranslucent">true</item><item name="android:windowBackground">@android:color/transparent</item><item name="android:windowContentOverlay">@null</item><item name="android:windowNoTitle">true</item><item name="android:backgroundDimEnabled">true</item><item name="android:windowIsFloating">false</item><item name="android:windowAnimationStyle">@style/MaterialDialogSheetAnimation</item></style>
+
+    <style name="MaterialDialogSheetAnimation">
+        <item name="android:windowEnterAnimation">@anim/popup_show</item>
+        <item name="android:windowExitAnimation">@anim/popup_hide</item>
+    </style>-->
+
+    <style name="MaterialDialogSheet" parent="@android:style/Theme.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowAnimationStyle">@style/MaterialDialogSheetAnimation</item>
+    </style>
 
     <style name="MaterialDialogSheetAnimation">
         <item name="android:windowEnterAnimation">@anim/popup_show</item>

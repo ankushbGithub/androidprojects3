@@ -10,6 +10,6 @@ public interface MyListener {
      *
      * @param position the position
      */
-    void onListen(int position);
+    void onListen(int position,String type);
 }
 

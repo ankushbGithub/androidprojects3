@@ -1,0 +1,65 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:id="@+id/cardViewProduct"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dim_8"
+    app:cardCornerRadius="@dimen/dim_8"
+    app:cardElevation="0dp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true"
+    card_view:cardElevation="0dp">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dim_8">
+
+        <RelativeLayout
+            android:id="@+id/rLayoutContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/rLayoutImage"
+            android:layout_toEndOf="@+id/rLayoutImage"
+            android:layout_toRightOf="@+id/rLayoutImage">
+
+            <ImageView
+                android:id="@+id/imgThreeDots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:padding="@dimen/dim_4"
+                android:src="@drawable/icon_more"
+                android:tint="@color/colorPrimary" />
+
+            <RelativeLayout
+                android:id="@+id/rLayoutUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dim_4"
+                android:layout_marginLeft="@dimen/dim_12"
+                android:layout_marginTop="@dimen/dim_16"
+                android:layout_toStartOf="@+id/imgThreeDots"
+                android:layout_toLeftOf="@+id/imgThreeDots">
+
+                <TextView
+                    android:id="@+id/tvSubCatName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/imageViewUser"
+                    android:layout_toRightOf="@+id/imageViewUser"
+                    android:paddingLeft="@dimen/dim_8"
+                    android:paddingRight="@dimen/dim_8"
+                    android:text="Ramesh"
+                    android:textSize="@dimen/universal_text_size14" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

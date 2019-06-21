@@ -18,6 +18,7 @@ public class AppConstants {
     public static final String utc_format = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     public static final String utc_format1 = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     public static final String format6 = "yyyy-MM-dd";
+    public static final String format7 = "dd-MM-yyyy";
     public static final String format5 = "MMM dd, yyyy hh:mm:ss a";
     public static final SimpleDateFormat format10 = new SimpleDateFormat(AppConstants.format5);
     public static final String format = "dd/MMM/yyyy";
@@ -97,6 +98,12 @@ public class AppConstants {
     public static final String TOKEN = "token_type";
     public static final String USER_NAME = "userName";
     public static final String USER_TYPE = "userType";
+    public static final String NAME = "name";
+    public static final String USER_ROLE = "role";
+    public static final String USER_ID = "userId";
+    public static final String USER_POINTS = "Points";
+    public static final String USER_USED_POINTS = "MaxUsePoints";
+    public static final String USER_PER_POINTS = "PointsPerValue";
 
     public static final String DESIGNATION = "designation";
     public static final String UserId = "user_id";
@@ -110,7 +117,7 @@ public class AppConstants {
     public static final String location = "location";
     public static final String lat = "lat";
     public static final String lng = "lat";
-    public static final String NAME = "name";
+
 
     public static final String Login_Status = "login_status";
     public static final String AUTHORIZATION = "Authorization";

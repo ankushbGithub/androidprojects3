@@ -98,7 +98,7 @@ public class AdminOrders extends BaseActivity implements View.OnClickListener,My
                                         myOrderModals.clear();
                                         JSONObject object=jsonObject.optJSONObject("response");
                                         JSONArray array=object.optJSONArray("orders");
-                                        for (int i=0;i<array.length();i++){
+                                       /* for (int i=0;i<array.length();i++){
                                             MyOrderModal myOrderModal=new MyOrderModal();
                                             JSONObject object1=array.optJSONObject(i);
                                             myOrderModal.setConfirmDate(object1.optString("confirm_date"));
@@ -112,7 +112,7 @@ public class AdminOrders extends BaseActivity implements View.OnClickListener,My
                                             myOrderModal.setId(object1.optString("_id"));
                                             myOrderModal.setOrderId(object1.optString("order_id"));
                                             myOrderModals.add(myOrderModal);
-                                        }
+                                        }*/
                                         myOrderAdapter.notifyDataSetChanged();
 
                                     }
@@ -352,10 +352,10 @@ public class AdminOrders extends BaseActivity implements View.OnClickListener,My
     }
 
     @Override
-    public void onListen(int position) {
+    public void onListen(int position,String type) {
 
         Intent i=new Intent(AdminOrders.this,OrderConfirmationActivity.class);
-        i.putExtra("orderId",myOrderModals.get(position).getOrderId());
+      //  i.putExtra("orderId",myOrderModals.get(position).getOrderId());
         startActivity(i);
     }
 }

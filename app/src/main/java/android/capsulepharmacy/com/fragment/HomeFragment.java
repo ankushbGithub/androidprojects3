@@ -7,8 +7,7 @@ import android.app.ProgressDialog;
 import android.capsulepharmacy.com.APIClient;
 import android.capsulepharmacy.com.CapsuleAPI;
 import android.capsulepharmacy.com.activity.LoginActivity;
-import android.capsulepharmacy.com.activity.MyOrders;
-import android.capsulepharmacy.com.activity.RegisterActivity;
+import android.capsulepharmacy.com.activity.BookVendor;
 import android.capsulepharmacy.com.activity.UploadPrescriptionActivity;
 import android.capsulepharmacy.com.modal.HomeModal;
 import android.capsulepharmacy.com.R;
@@ -16,7 +15,6 @@ import android.capsulepharmacy.com.adapter.HomeAdapter;
 import android.capsulepharmacy.com.utility.AppConstants;
 import android.capsulepharmacy.com.utility.AutoscrollViewPager;
 import android.capsulepharmacy.com.utility.Prefs;
-import android.capsulepharmacy.com.utility.Utility;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -52,16 +50,12 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
 public class HomeFragment extends Fragment {
-    private String[] titlesAdmin = {"My Orders", "Offers", "Terms & Conditions", "About Us"};
-    private int[] imagesAdmin = {R.drawable.my_order,  R.drawable.offer, R.drawable.terms_app, R.drawable.about_app};
-
-    private String[] titles = {"Party & Events", "Home Service", "Tour & Travel", "Office", "Bus Service", "Cocktail"};
-    private int[] images = {R.drawable.party_1, R.drawable.service_1, R.drawable.tour_1, R.drawable.office_1, R.drawable.bus_1, R.drawable.cocktail_1};
-    private ArrayList<HomeModal> homeModals = new ArrayList<>();
+   private ArrayList<HomeModal> homeModals = new ArrayList<>();
     private ArrayList<String> imagesDeals = new ArrayList<>();
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -106,8 +100,11 @@ public class HomeFragment extends Fragment {
         else {
             Utility.showToast("Please check your internet connectivity");
         }*/
-        init(v);
+
+
+       init(v);
         setRecycleItems(v);
+        getDashboard();
 
 
 
@@ -118,51 +115,36 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setItems();
+
     }
 
     private void setRecycleItems(View v) {
+        recyclerviewCategory = v.findViewById(R.id.recyclerviewCategory);
         recyclerviewCategory.setHasFixedSize(true);
         recyclerviewCategory.setLayoutManager(new GridLayoutManager(mContext, 3));
 
 
         homeAdapter = new HomeAdapter(mContext, homeModals);
-        recyclerviewCategory.setAdapter(null);
         recyclerviewCategory.setAdapter(homeAdapter);
     }
 
-    private void setItems() {
-        homeModals.clear();
-        if (!Prefs.getStringPrefs("type").equalsIgnoreCase("admin")) {
-            for (int i = 0; i < titles.length; i++) {
-                HomeModal homeModal = new HomeModal();
-                homeModal.setTitle(titles[i]);
-                homeModal.setImage(images[i]);
-                homeModals.add(homeModal);
-
-            }
-            homeAdapter.notifyDataSetChanged();
-        }else{
-            for (int i = 0; i < titlesAdmin.length; i++) {
-                HomeModal homeModal = new HomeModal();
-                homeModal.setTitle(titlesAdmin[i]);
-                homeModal.setImage(imagesAdmin[i]);
-                homeModals.add(homeModal);
-
-            }
-            homeAdapter.notifyDataSetChanged();
-        }
-    }
 
 
 
     private void init(View view) {
         llUpload = view.findViewById(R.id.llUpload);
+
+        if (Prefs.getStringPrefs(AppConstants.USER_ROLE).equalsIgnoreCase("customer")) {
+            llUpload.setVisibility(View.VISIBLE);
+
+        }else{
+            llUpload.setVisibility(View.GONE);
+        }
         llUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent i=new Intent(getActivity(), MyOrders.class);
+                Intent i=new Intent(getActivity(), BookVendor.class);
                 startActivity(i);
                // showDialog(getActivity());
             }
@@ -176,12 +158,9 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-        recyclerviewCategory = view.findViewById(R.id.recyclerviewCategory);
+
         mViewPager = (AutoscrollViewPager) view.findViewById(R.id.viewpager);
         //  mViewPager.setPadding(40, 0, 40, 0);
-        imagesDeals.add("https://irp-cdn.multiscreensite.com/4961aaf9/dms3rep/multi/mobile/book+next+party+banner.jpg");
-        imagesDeals.add("https://buzzingaboutbooks.files.wordpress.com/2014/01/quilted-heart-fb-party-banner-560x290.jpg");
-        imagesDeals.add("http://www.golfpleasantview.com/media/com_acymailing/upload/book_your_holiday_party_1.png");
 
         adapter = new ImagesAdapter(getChildFragmentManager());
         // Set an Adapter on the ViewPager
@@ -202,7 +181,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void call_action() {
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "9460460580"));
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "9580089009"));
         startActivity(intent);
     }
 
@@ -296,9 +275,20 @@ public class HomeFragment extends Fragment {
     private void getDashboard() {
         final ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.show();
-        OkHttpClient okHttpClient = APIClient.getHttpClient();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("Role", Prefs.getStringPrefs(AppConstants.USER_ROLE));
+            jsonObject.put("Id", Prefs.getIntegerPrefs(AppConstants.USER_ID));
+            jsonObject.put("EmailId", Prefs.getStringPrefs(AppConstants.USER_NAME));
 
-        Request request = APIClient.getRequest(getActivity(), CapsuleAPI.WEBSERVICE_GET_DASHBOARD);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+        String url = CapsuleAPI.WEB_SERVICE_BOOKING_GetDashboardImages;
+        RequestBody requestBody = RequestBody.create(CapsuleAPI.JSON, jsonObject.toString());
+        Request request = APIClient.simplePostRequest(getActivity(), url,requestBody);
 
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -319,28 +309,41 @@ public class HomeFragment extends Fragment {
                         @Override
                         public void run() {
                             progressDialog.dismiss();
-
                         }
                     });
                     if (response != null && response.isSuccessful()) {
                         String responseData = response.body().string();
-
                         if (responseData != null) {
-
                             try {
                                 final JSONObject jsonObject = new JSONObject(responseData);
-
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+
                                         imagesDeals.clear();
-                                        JSONObject object=jsonObject.optJSONObject("response");
-                                        JSONArray array=object.optJSONArray("banners");
+
+                                        JSONArray array=jsonObject.optJSONArray("dashboardImages");
                                         for (int i=0;i<array.length();i++){
                                             JSONObject object1=array.optJSONObject(i);
-                                            //imagesDeals.add(object1.optString("image"));
+                                            imagesDeals.add(object1.optString("url"));
                                         }
-                                        adapter.notifyDataSetChanged();
+                                        adapter = new ImagesAdapter(getChildFragmentManager());
+                                        // Set an Adapter on the ViewPager
+                                        mViewPager.setAdapter(adapter);
+
+
+                                        homeModals.clear();
+                                        JSONArray array1=jsonObject.optJSONArray("categoryList");
+                                        for (int i=0;i<array1.length();i++){
+                                            JSONObject object1=array1.optJSONObject(i);
+                                            HomeModal homeModal = new HomeModal();
+                                            homeModal.setTitle(object1.optString("Name"));
+                                            homeModal.setImage(object1.optString("ImageUri"));
+                                            homeModal.setId(object1.optInt("Id"));
+                                            homeModals.add(homeModal);
+
+                                        }
+                                        homeAdapter.notifyDataSetChanged();
                                     }
                                 });
                             } catch (JSONException e) {
@@ -414,7 +417,7 @@ public class HomeFragment extends Fragment {
         llWhatsapp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri uri = Uri.parse("smsto:" + "9460460580");
+                Uri uri = Uri.parse("smsto:" + "9580089009");
                 Intent i = new Intent(Intent.ACTION_SENDTO, uri);
                 i.setPackage("com.whatsapp");
                 startActivity(Intent.createChooser(i, ""));

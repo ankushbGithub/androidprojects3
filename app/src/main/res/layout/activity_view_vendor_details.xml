@@ -1,0 +1,706 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background_color"
+   >
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btnSubmit">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.4"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="72dp"
+                        android:layout_gravity="center"
+                        android:background="@mipmap/ic_launcher" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/PONewDeliveryAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dim_8"
+                        android:background="@color/white"
+                        android:paddingTop="@dimen/dim_8"
+                        android:paddingEnd="@dimen/dim_8"
+                        android:visibility="gone"
+                        android:paddingRight="@dimen/dim_8"
+                        android:paddingBottom="@dimen/dim_8">
+
+
+                        <TextView
+                            android:id="@+id/tvHeaderPOAttachement"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/imgAttach"
+                            android:layout_toRightOf="@+id/imgAttach"
+                            android:paddingLeft="10dp"
+                            android:paddingEnd="10dp"
+                            android:paddingRight="10dp"
+                            android:text="New Address"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/tvAddAttach"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="8dp"
+                            android:layout_toLeftOf="@+id/imgri"
+                            android:background="@drawable/button_rectangle_primary"
+                            android:gravity="center"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:text="+"
+                            android:textColor="@color/white"
+                            android:textSize="18dp"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/imgri"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:alpha="0.7"
+                            android:paddingEnd="10dp"
+                            android:paddingRight="10dp" />
+
+
+                    </RelativeLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_viewAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:background="@color/white">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dim_8"
+                        android:background="@color/white"
+                        android:paddingTop="@dimen/dim_8"
+                        android:visibility="gone"
+                        android:paddingEnd="@dimen/dim_8"
+                        android:paddingRight="@dimen/dim_8"
+                        android:paddingBottom="@dimen/dim_8">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:paddingLeft="10dp"
+                            android:paddingEnd="10dp"
+                            android:paddingRight="10dp"
+                            android:text="Bank Details"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/tvBankDetails"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="8dp"
+                            android:layout_toLeftOf="@+id/imgri1"
+                            android:background="@drawable/button_rectangle_primary"
+                            android:gravity="center"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:text="+"
+                            android:textColor="@color/white"
+                            android:textSize="18dp"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/imgri1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:alpha="0.7"
+                            android:paddingEnd="10dp"
+                            android:paddingRight="10dp" />
+
+
+                    </RelativeLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rvBankDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:background="@color/white">
+
+                    </android.support.v7.widget.RecyclerView>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:padding="8dp"
+                            android:text="Category and Nature of Work"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp"
+                            android:visibility="visible" />
+
+                        <EditText
+                            android:id="@+id/etCategory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dim_4"
+                            android:enabled="false"
+                            android:clickable="true"
+                            android:drawableEnd="@drawable/ic_action_drop"
+                            android:drawableRight="@drawable/ic_action_drop"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:fontFamily="@fonts/titilliumwebregular"
+                            android:hint="Select Category"
+                            android:inputType="number"
+                            android:textSize="@dimen/universal_text_size14" />
+
+                        <EditText
+                            android:id="@+id/etCategoryText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dim_4"
+                            android:clickable="true"
+                            android:visibility="gone"
+                            android:drawableEnd="@drawable/ic_action_drop"
+                            android:drawableRight="@drawable/arrowdown"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:fontFamily="@fonts/titilliumwebregular"
+                            android:inputType="number"
+                            android:textSize="@dimen/universal_text_size14" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lMinMem"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:visibility="visible"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:padding="8dp"
+                            android:text="Minimum Members"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp"
+                            android:visibility="visible" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dim_8">
+
+                            <EditText
+                                android:id="@+id/etMinMem"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:enabled="false"
+                                android:fontFamily="@fonts/titilliumwebregular"
+                                android:hint="Enter minimum members"
+                                android:inputType="number"
+                                android:textSize="@dimen/universal_text_size14" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lMaxMem"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:padding="8dp"
+                            android:text="Maximum Members"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp"
+                            android:visibility="visible" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dim_8">
+
+                            <EditText
+                                android:id="@+id/etMaxMem"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@fonts/titilliumwebregular"
+                                android:hint="Enter maximum members"
+                                android:inputType="number"
+                                android:enabled="false"
+                                android:textSize="@dimen/universal_text_size14" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lSubCatList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dim_8"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.7"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvSubCatHeader"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:padding="@dimen/dim_4"
+                                    android:text="Sub Category"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="@dimen/universal_text_size16"
+                                    android:visibility="visible" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:padding="@dimen/dim_4"
+                                    android:text="Description"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="@dimen/universal_text_size16"
+                                    android:visibility="visible" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvPRice"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:padding="@dimen/dim_4"
+                                    android:text="Price"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="@dimen/universal_text_size16"
+                                    android:visibility="visible" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rvSubCatList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white">
+
+                        </android.support.v7.widget.RecyclerView>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:padding="8dp"
+                            android:text="Service At"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp"
+                            android:visibility="visible" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dim_8">
+
+                            <EditText
+                                android:id="@+id/etServiceAt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:drawableEnd="@drawable/ic_action_drop"
+                                android:drawableRight="@drawable/ic_action_drop"
+                                android:focusable="false"
+                                android:enabled="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="@fonts/titilliumwebregular"
+                                android:hint="Select Service"
+                                android:inputType="number"
+                                android:textSize="@dimen/universal_text_size14" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:padding="8dp"
+                            android:text="Complete Package Price"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp"
+                            android:visibility="visible" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dim_8">
+
+                            <EditText
+                                android:id="@+id/etPackagePrice"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@fonts/titilliumwebregular"
+                                android:hint="Enter package price"
+                                android:inputType="numberDecimal"
+                                android:enabled="false"
+                                android:textSize="@dimen/universal_text_size14" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:padding="8dp"
+                            android:text="Package Description"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp"
+                            android:visibility="visible" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dim_8">
+
+                            <EditText
+                                android:id="@+id/etPackDesp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@fonts/titilliumwebregular"
+                                android:hint="Enter Package Description"
+                                android:inputType="textMultiLine"
+                                android:enabled="false"
+                                android:textSize="@dimen/universal_text_size14" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:padding="8dp"
+                            android:text="Minimum price"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp"
+                            android:visibility="visible" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dim_8">
+
+                            <EditText
+                                android:id="@+id/etMinPrice"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@fonts/titilliumwebregular"
+                                android:hint="Enter Minimum price"
+                                android:enabled="false"
+                                android:inputType="numberDecimal"
+                                android:textSize="@dimen/universal_text_size14" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:padding="8dp"
+                            android:text="Maximum price"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp"
+                            android:visibility="visible" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dim_8">
+
+                            <EditText
+                                android:id="@+id/etMaxPrice"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@fonts/titilliumwebregular"
+                                android:hint="Enter Maximum price"
+                                android:enabled="false"
+                                android:inputType="numberDecimal"
+                                android:textSize="@dimen/universal_text_size14" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:padding="8dp"
+                            android:text="Signature"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp"
+                            android:visibility="visible" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dim_8">
+
+                            <com.github.gcacace.signaturepad.views.SignaturePad xmlns:android="http://schemas.android.com/apk/res/android"
+                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/signature_pad"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dim_100"
+                                android:visibility="gone"
+                                android:background="@drawable/edit_text_border"
+                                app:penColor="@android:color/black" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/signature_pad"
+                                android:layout_marginTop="@dimen/dim_4"
+                                android:orientation="horizontal"
+                                android:padding="@dimen/dim_4"
+                                android:visibility="gone">
+
+                                <Button
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:backgroundTint="@color/colorPrimary"
+                                    android:text="Clear Signature"
+                                    android:textColor="@color/white"
+                                    android:visibility="invisible" />
+
+                                <Button
+                                    android:id="@+id/clearButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:backgroundTint="@color/colorPrimary"
+                                    android:text="Clear Signature"
+                                    android:textColor="@color/white" />
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <EditText
+                            android:id="@+id/input_remarks"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@color/white"
+                            android:gravity="start"
+                            android:hint="Digital Sign"
+
+                            android:inputType="textMultiLine"
+                            android:padding="8dp"
+                            android:textColorHint="@color/colorPrimary"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/checkbox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:visibility="gone"
+                    android:textColor="@color/colorAccent"
+                    android:text="Please accept Terms &amp; Conditions"/>
+
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btnSubmit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorPrimary"
+            android:padding="12dp"
+            android:text="Proceed"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
+</LinearLayout>

@@ -8,6 +8,7 @@ import android.capsulepharmacy.com.R;
 import android.capsulepharmacy.com.utility.AppConstants;
 import android.capsulepharmacy.com.utility.Config;
 import android.capsulepharmacy.com.utility.NetUtil;
+import android.capsulepharmacy.com.utility.Prefs;
 import android.capsulepharmacy.com.utility.Utility;
 import android.content.Context;
 import android.content.Intent;
@@ -278,7 +279,24 @@ public class RegisterActivity extends AppCompatActivity implements TextWatcher {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                        Toast.makeText(mContext, getResources().getString(R.string.error_bad_request), Toast.LENGTH_SHORT).show();
+
+                                    String errorBodyString = null;
+                                    try {
+                                        errorBodyString = response.body().string();
+
+                                        try {
+                                            JSONObject jsonObject1=new JSONObject(errorBodyString);
+                                            Utility.messageDialog(RegisterActivity.this,"Error",jsonObject1.optString("Message"));
+                                          //  Toast.makeText(mContext, jsonObject1.optString("Message"), Toast.LENGTH_SHORT).show();
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+
+
                                 }
                             });
                         } else if (response.code() == AppConstants.INTERNAL_SERVER_ERROR) {
@@ -323,11 +341,129 @@ public class RegisterActivity extends AppCompatActivity implements TextWatcher {
         }
 
     }
+    public void userRoleAPi(String email) {
+        final ProgressDialog progressDialog = new ProgressDialog(RegisterActivity.this);
+        progressDialog.show();
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("EmailId", email);
+            jsonObject.put("DeviceToken","");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+
+        RequestBody requestBody = RequestBody.create(CapsuleAPI.JSON, jsonObject.toString());
+        String url = CapsuleAPI.WEB_SERVICE_USERROLE;
+
+        final Request request = APIClient.simplePostRequest(this, url, requestBody);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+                        Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) {
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+                    }
+                });
+                try {
+                    if (response != null && response.isSuccessful()) {
+                        final String responseData = response.body().string();
+                        if (responseData != null) {
+
+                            final JSONObject jsonObject = new JSONObject(responseData);
+                            runOnUiThread(() -> {
+                                Prefs.putStringPrefs(AppConstants.NAME, jsonObject.optString("UserName"));
+                                Prefs.putIntegerPrefs(AppConstants.USER_ID, jsonObject.optInt("UserId"));
+                                Prefs.putStringPrefs(AppConstants.USER_ROLE, jsonObject.optString("UserRole"));
+
+
+                                Intent i = new Intent(RegisterActivity.this, MainActivity.class);
+                                startActivity(i);
+                                finish();
+                            });
+
+                        }
+
+                    } else if (response.code() == AppConstants.BAD_REQUEST) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String errorBodyString = null;
+                                try {
+                                    errorBodyString = response.body().string();
+
+                                    try {
+                                        JSONObject jsonObject1=new JSONObject(errorBodyString);
+                                        Utility.messageDialog(RegisterActivity.this,"Error",jsonObject1.optString("error_description"));
+                                        //  Toast.makeText(mContext, jsonObject1.optString("Message"), Toast.LENGTH_SHORT).show();
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                //Toast.makeText(mContext, getResources().getString(R.string.error_bad_request), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else if (response.code() == AppConstants.INTERNAL_SERVER_ERROR) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(mContext, getResources().getString(R.string.error_internal_server_error), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else if (response.code() == AppConstants.URL_NOT_FOUND) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(mContext, getResources().getString(R.string.error_url_not_found), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else if (response.code() == AppConstants.UNAUTHORIZE_ACCESS) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(mContext, getResources().getString(R.string.error_unautorize_access), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else if (response.code() == AppConstants.CONNECTION_OUT) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(mContext, getResources().getString(R.string.error_connection_timed_out), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+
+                }
+            }
+        });
+    }
     private void setData(String responseData) {
         try {
             JSONObject jsonObject = new JSONObject(responseData);
             if (jsonObject.optInt("Code") == 200) {
+
                 Toast.makeText(mContext, jsonObject.optString("Message"), Toast.LENGTH_LONG).show();
                 finish();
             } else {

@@ -1,158 +1,246 @@
 package android.capsulepharmacy.com.modal;
 
+import java.io.Serializable;
+
 /**
  * Created on 11-08-2018.
  */
 
-public class MyOrderModal {
-
-    private String id;
-    private String title;
-    private String image;
-    private int status;
-    private double amount;
-    private String remarks;
-    private String date;
-    private String confirmDate;
-    private String invoiceImage;
-    private String dispatchDate;
-    private String deliverDate;
-    private String returnDate;
-    private String weekday;
-    private String createdDate;
-    private String address;
-    private String orderId;
+public class MyOrderModal  implements Serializable {
 
 
-    public String getId() {
-        return id;
+    /**
+     * CustomerId : 1
+     * CustomerName : Nikki
+     * VendorId : 1
+     * VendorName : Niteesh Kumar
+     * BookingNumber : B000000001
+     * BookingDate : 19-03-2019
+     * ServiceAtId : 0
+     * CategoryId : 1
+     * CategoryName : Tour & Travels
+     * SubCategoryId : 1
+     * SubCategoryName : Car
+     * ServiceAt :
+     * PayLaterAmt : 0
+     * BookingAmt : 500
+     * Status : 0
+     */
+
+    private int CustomerId;
+    private String CustomerName;
+    private int VendorId;
+    private String VendorName;
+    private String BookingNumber;
+    private String BookingDate;
+    private int ServiceAtId;
+    private int CategoryId;
+    private String CategoryName;
+    private int SubCategoryId;
+    private String SubCategoryName;
+    private String ServiceAt;
+    private double PayLaterAmt;
+    private double BookingAmt;
+    private int Status;
+    private double rating;
+    public double Rating;
+    private double Price;
+    private int Members;
+    private int UsedPoints;
+    private double PointsPerValue;
+    private int PaymentGatewayStatusCode;
+    private String PaymentGatewayStatusDescription;
+    private String PaymentGatewayRemarks;
+
+    public int getCustomerId() {
+        return CustomerId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCustomerId(int CustomerId) {
+        this.CustomerId = CustomerId;
     }
 
-    public String getTitle() {
-        return title;
+    public String getCustomerName() {
+        return CustomerName;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setCustomerName(String CustomerName) {
+        this.CustomerName = CustomerName;
     }
 
-
-
-
-
-    public double getAmount() {
-        return amount;
+    public int getVendorId() {
+        return VendorId;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setVendorId(int VendorId) {
+        this.VendorId = VendorId;
     }
 
-    public String getRemarks() {
-        return remarks;
+    public String getVendorName() {
+        return VendorName;
     }
 
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
+    public void setVendorName(String VendorName) {
+        this.VendorName = VendorName;
     }
 
-    public String getImage() {
-        return image;
+    public String getBookingNumber() {
+        return BookingNumber;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setBookingNumber(String BookingNumber) {
+        this.BookingNumber = BookingNumber;
     }
 
-    public String getDate() {
-        return date;
+    public String getBookingDate() {
+        return BookingDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setBookingDate(String BookingDate) {
+        this.BookingDate = BookingDate;
     }
 
-    public String getConfirmDate() {
-        return confirmDate;
+    public int getServiceAtId() {
+        return ServiceAtId;
     }
 
-    public void setConfirmDate(String confirmDate) {
-        this.confirmDate = confirmDate;
+    public void setServiceAtId(int ServiceAtId) {
+        this.ServiceAtId = ServiceAtId;
     }
 
-    public String getInvoiceImage() {
-        return invoiceImage;
+    public int getCategoryId() {
+        return CategoryId;
     }
 
-    public void setInvoiceImage(String invoiceImage) {
-        this.invoiceImage = invoiceImage;
+    public void setCategoryId(int CategoryId) {
+        this.CategoryId = CategoryId;
     }
 
-    public String getDispatchDate() {
-        return dispatchDate;
+    public String getCategoryName() {
+        return CategoryName;
     }
 
-    public void setDispatchDate(String dispatchDate) {
-        this.dispatchDate = dispatchDate;
+    public void setCategoryName(String CategoryName) {
+        this.CategoryName = CategoryName;
     }
 
-    public String getDeliverDate() {
-        return deliverDate;
+    public int getSubCategoryId() {
+        return SubCategoryId;
     }
 
-    public void setDeliverDate(String deliverDate) {
-        this.deliverDate = deliverDate;
+    public void setSubCategoryId(int SubCategoryId) {
+        this.SubCategoryId = SubCategoryId;
     }
 
-    public String getReturnDate() {
-        return returnDate;
+    public String getSubCategoryName() {
+        return SubCategoryName;
     }
 
-    public void setReturnDate(String returnDate) {
-        this.returnDate = returnDate;
+    public void setSubCategoryName(String SubCategoryName) {
+        this.SubCategoryName = SubCategoryName;
     }
 
-    public String getWeekday() {
-        return weekday;
+    public String getServiceAt() {
+        return ServiceAt;
     }
 
-    public void setWeekday(String weekday) {
-        this.weekday = weekday;
+    public void setServiceAt(String ServiceAt) {
+        this.ServiceAt = ServiceAt;
     }
 
-    public String getCreatedDate() {
-        return createdDate;
+    public double getPayLaterAmt() {
+        return PayLaterAmt;
     }
 
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
+    public void setPayLaterAmt(int PayLaterAmt) {
+        this.PayLaterAmt = PayLaterAmt;
     }
 
-    public String getAddress() {
-        return address;
+    public double getBookingAmt() {
+        return BookingAmt;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setBookingAmt(int BookingAmt) {
+        this.BookingAmt = BookingAmt;
     }
 
     public int getStatus() {
-        return status;
+        return Status;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setStatus(int Status) {
+        this.Status = Status;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public double getPrice() {
+        return Price;
+    }
+
+    public void setPrice(double price) {
+        Price = price;
+    }
+
+    public void setPayLaterAmt(double payLaterAmt) {
+        PayLaterAmt = payLaterAmt;
+    }
+
+    public void setBookingAmt(double bookingAmt) {
+        BookingAmt = bookingAmt;
+    }
+
+    public int getMembers() {
+        return Members;
+    }
+
+    public void setMembers(int members) {
+        Members = members;
+    }
+
+    public int getUsedPoints() {
+        return UsedPoints;
+    }
+
+    public void setUsedPoints(int usedPoints) {
+        UsedPoints = usedPoints;
+    }
+
+    public double getPointsPerValue() {
+        return PointsPerValue;
+    }
+
+    public void setPointsPerValue(double pointsPerValue) {
+        PointsPerValue = pointsPerValue;
+    }
+
+    public int getPaymentGatewayStatusCode() {
+        return PaymentGatewayStatusCode;
+    }
+
+    public void setPaymentGatewayStatusCode(int paymentGatewayStatusCode) {
+        PaymentGatewayStatusCode = paymentGatewayStatusCode;
+    }
+
+    public String getPaymentGatewayStatusDescription() {
+        return PaymentGatewayStatusDescription;
+    }
+
+    public void setPaymentGatewayStatusDescription(String paymentGatewayStatusDescription) {
+        PaymentGatewayStatusDescription = paymentGatewayStatusDescription;
+    }
+
+    public String getPaymentGatewayRemarks() {
+        return PaymentGatewayRemarks;
+    }
+
+    public void setPaymentGatewayRemarks(String paymentGatewayRemarks) {
+        PaymentGatewayRemarks = paymentGatewayRemarks;
     }
 }

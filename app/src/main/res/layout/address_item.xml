@@ -58,7 +58,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:layout_toLeftOf="@+id/rbSelect"
-                        android:gravity="start"
                         android:text="C 2, Gurudw Town, New Delhi , 110009djdjjdjddjdjdjdjd" />
 
                     <RadioButton

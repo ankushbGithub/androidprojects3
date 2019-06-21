@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.capsulepharmacy.com.R;
 import android.capsulepharmacy.com.base.BaseActivity;
 import android.capsulepharmacy.com.utility.Utility;
+import android.capsulepharmacy.com.vendor.modal.SelectedSubCatList;
+import android.capsulepharmacy.com.vendor.modal.ServiceFilterModal;
+import android.capsulepharmacy.com.vendor.modal.SubCatFilterModal;
+import android.capsulepharmacy.com.vendor.modal.SubCatListModel;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,11 +18,13 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
@@ -53,6 +59,19 @@ import java.util.regex.Pattern;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class VendorCreationActivity extends BaseActivity implements View.OnClickListener, TextWatcher {
+    public static ArrayList<ServiceFilterModal> serviceFilterModals = new ArrayList<>();
+    public static ArrayList<SubCatFilterModal> subCatFilterModals = new ArrayList<>();
+    public static ArrayList<SelectedSubCatList> selectedSubCatLists = new ArrayList<>();
+    public static ArrayList<SubCatListModel> subCatListModels = new ArrayList<>();
+
+    public static String vName, vFirmName, vGstin, vMobile, PhotoUrl, PanUrl, AadhaarUrl, PhotoPath, AadhaarPath, PanPath, Password, Email, VendorAddressDetails, VendorBankDetails;
+    public static int intentCategoryId, ServiceLocationId, SubCategoryId, MaxMember, MinMember, Price;
+    public static int Id;
+
+    public static String PDescription;
+    public static int MaxPrice;
+    public static int MinPrice;
+
     private Context mContext;
     private static final String TAG = VendorCreationActivity.class.getSimpleName();
     private Bitmap thePic;
@@ -82,8 +101,10 @@ public class VendorCreationActivity extends BaseActivity implements View.OnClick
     private static final String mypreference = "Data";
     private String response;
     private byte[] arr;
-    private boolean isUpdate;
+    private boolean isUpdate, isVendorDetails;
     public static Activity activity;
+    private boolean isAadharUpload, isPanUpload;
+    private SharedPreferences sharedpreferences;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,8 +116,9 @@ public class VendorCreationActivity extends BaseActivity implements View.OnClick
         Intent i = getIntent();
         response = i.getStringExtra("response");
         isUpdate = i.getBooleanExtra("isUpdate", false);
+        isVendorDetails = i.getBooleanExtra("isVendorDetails", false);
 
-        SharedPreferences sharedpreferences = mContext.getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+        sharedpreferences = mContext.getSharedPreferences(mypreference, Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -109,9 +131,16 @@ public class VendorCreationActivity extends BaseActivity implements View.OnClick
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View view) {
-                finish();
+                if (VendorDetailsActivity.activityState) {
+                    VendorDetailsActivity.activity.finish();
+                    finish();
+                } else {
+                    finish();
+                }
+
             }
         });
         if (getSupportActionBar() != null) {
@@ -126,67 +155,154 @@ public class VendorCreationActivity extends BaseActivity implements View.OnClick
 
     private void setValue() {
         try {
-            if (Utility.validateString(response)) {
-                JSONObject jObj = new JSONObject(response);
-                tieName.setText(jObj.optString("Name"));
-                tieFirmName.setText(jObj.optString("FirmName"));
-                tieGSTIN.setText(jObj.optString("GSTIN"));
-                tieMobNum.setText(jObj.optString("MobileNo"));
-                tieEmail.setText(jObj.optString("Email"));
-                tilPassword.setVisibility(View.GONE);
+            if (isUpdate) {
+                if (Utility.validateString(response)) {
+                    String PhotoUrl = sharedpreferences.getString("PhotoUrl", "");
+                    String PanUrl = sharedpreferences.getString("PanUrl", "");
+                    String AadhaarUrl = sharedpreferences.getString("AadhaarUrl", "");
+                    String Name = sharedpreferences.getString("Name", "");
+                    String FirmName = sharedpreferences.getString("FirmName", "");
+                    String GSTIN = sharedpreferences.getString("GSTIN", "");
+                    String MobileNo = sharedpreferences.getString("MobileNo", "");
+                    String Email = sharedpreferences.getString("Email", "");
+
+
+                    JSONObject jObj = new JSONObject(response);
+                    if (Utility.validateString(Name)) {
+                        tieName.setText(Name);
+                    } else {
+                        tieName.setText(jObj.optString("Name"));
+                    }
+
+                    if (Utility.validateString(FirmName)) {
+                        tieFirmName.setText(FirmName);
+                    } else {
+                        tieFirmName.setText(jObj.optString("FirmName"));
+
+                    }
+
+                    if (Utility.validateString(GSTIN)) {
+                        tieGSTIN.setText(GSTIN);
+                    } else {
+                        tieGSTIN.setText(jObj.optString("GSTIN"));
+                    }
+
+                    if (Utility.validateString(MobileNo)) {
+                        tieMobNum.setText(MobileNo);
+                    } else {
+                        tieMobNum.setText(jObj.optString("MobileNo"));
+                    }
+
+                    if (Utility.validateString(Email)) {
+                        tieEmail.setText(Email);
+                    } else {
+                        tieEmail.setText(jObj.optString("Email"));
+                    }
+                    tilPassword.setVisibility(View.GONE);
 //                tiePassword.setText(jObj.optString("Password"));
 
-                Picasso.get().load(jObj.optString("PhotoUrl").trim()).placeholder(R.drawable.user).error(R.drawable.user).fit().into(img_ProfilePic);
-                Picasso.get().load(jObj.optString("PanUrl").trim()).placeholder(R.drawable.image_placeholder).error(R.drawable.image_placeholder).fit().into(ivPan);
-                Picasso.get().load(jObj.optString("AadhaarUrl").trim()).placeholder(R.drawable.image_placeholder).error(R.drawable.image_placeholder).fit().into(ivAadhar);
 
-                editor.putInt("Id", jObj.optInt("Id"));
-                editor.putString("PhotoUrl", jObj.optString("PhotoUrl").trim());
-                editor.putString("PanUrl", jObj.optString("PanUrl").trim());
-                editor.putString("AadhaarUrl", jObj.optString("AadhaarUrl").trim());
-                editor.putInt("CategoryId", jObj.optInt("CategoryId"));
-                editor.putInt("ServiceLocationId", jObj.optInt("ServiceLocationId"));
-                editor.putInt("SubCategoryId", jObj.optInt("SubCategoryId"));
-                editor.putString("PhotoPath", jObj.optString("PhotoPath").trim());
-                editor.putString("AadhaarPath", jObj.optString("AadhaarPath").trim());
-                editor.putString("PanPath", jObj.optString("PanPath").trim());
-                editor.putString("Password", jObj.optString("Password").trim());
-                editor.putString("Email", jObj.optString("Email").trim());
-                editor.putString("VendorAddressDetails", jObj.optString("VendorAddressDetails").trim());
-                editor.putString("VendorBankDetails", jObj.optString("VendorBankDetails").trim());
-                editor.apply();
+                    if (Utility.validateString(PhotoUrl)) {
+                        if (PhotoUrl.startsWith("http://") || PhotoUrl.startsWith("https://")) {
+                            Picasso.get().load(PhotoUrl.trim()).placeholder(R.drawable.user).error(R.drawable.user).fit().into(img_ProfilePic);
+                        } else {
+                            img_ProfilePic.setImageBitmap(decodeBase64(PhotoUrl.trim()));
+
+                        }
+
+                    } else {
+                        Picasso.get().load(jObj.optString("PhotoUrl").trim()).placeholder(R.drawable.user).error(R.drawable.user).fit().into(img_ProfilePic);
+                        editor.putString("PhotoUrl", jObj.optString("PhotoUrl").trim());
+                        editor.putString("PhotoPath", jObj.optString("PhotoPath").trim());
+
+                    }
+
+                    if (Utility.validateString(PanUrl)) {
+                        if (PanUrl.startsWith("http://") || PanUrl.startsWith("https://")) {
+                            Picasso.get().load(PanUrl.trim()).placeholder(R.drawable.image_placeholder).error(R.drawable.image_placeholder).fit().into(ivPan);
+                        } else {
+                            ivPan.setImageBitmap(decodeBase64(PanUrl.trim()));
+                        }
+
+                    } else {
+                        Picasso.get().load(jObj.optString("PanUrl").trim()).placeholder(R.drawable.image_placeholder).error(R.drawable.image_placeholder).fit().into(ivPan);
+                        editor.putString("PanUrl", jObj.optString("PanUrl").trim());
+                        editor.putString("PanPath", jObj.optString("PanPath").trim());
+
+                    }
+
+                    if (Utility.validateString(AadhaarUrl)) {
+                        if (AadhaarUrl.startsWith("http://") || AadhaarUrl.startsWith("https://")) {
+                            Picasso.get().load(AadhaarUrl.trim()).placeholder(R.drawable.image_placeholder).error(R.drawable.image_placeholder).fit().into(ivAadhar);
+                        } else {
+                            ivAadhar.setImageBitmap(decodeBase64(AadhaarUrl.trim()));
+                        }
+
+                    } else {
+                        Picasso.get().load(jObj.optString("AadhaarUrl").trim()).placeholder(R.drawable.image_placeholder).error(R.drawable.image_placeholder).fit().into(ivAadhar);
+                        editor.putString("AadhaarUrl", jObj.optString("AadhaarUrl").trim());
+                        editor.putString("AadhaarPath", jObj.optString("AadhaarPath").trim());
+
+                    }
+
+                    editor.putInt("Id", jObj.optInt("Id"));
+                    editor.putInt("MaxMember", jObj.optInt("MaxMember"));
+                    editor.putInt("MinMember", jObj.optInt("MinMember"));
+                    editor.putInt("Price", jObj.optInt("Price"));
+                    editor.putString("PDescription", jObj.optString("PDescription"));
+                    editor.putInt("MaxPrice", jObj.optInt("MaxPrice"));
+                    editor.putInt("MinPrice", jObj.optInt("MinPrice"));
+                    editor.putInt("CategoryId", jObj.optInt("CategoryId"));
+                    editor.putInt("ServiceLocationId", jObj.optInt("ServiceLocationId"));
+                    editor.putInt("SubCategoryId", jObj.optInt("SubCategoryId"));
+
+                    editor.putString("Password", jObj.optString("Password").trim());
+                    editor.putString("Email", jObj.optString("Email").trim());
+                    editor.putString("VendorAddressDetails", jObj.optString("VendorAddressDetails").trim());
+                    editor.putString("VendorBankDetails", jObj.optString("VendorBankDetails").trim());
+                    editor.apply();
+                }
+            } else {
+                String PhotoUrl = sharedpreferences.getString("PhotoUrl", "");
+                String PanUrl = sharedpreferences.getString("PanUrl", "");
+                String AadhaarUrl = sharedpreferences.getString("AadhaarUrl", "");
+                String Name = sharedpreferences.getString("Name", "");
+                String FirmName = sharedpreferences.getString("FirmName", "");
+                String GSTIN = sharedpreferences.getString("GSTIN", "");
+                String MobileNo = sharedpreferences.getString("MobileNo", "");
+                String Email = sharedpreferences.getString("Email", "");
+                String Password = sharedpreferences.getString("Password", "");
+
+                tieName.setText(Name);
+                tieFirmName.setText(FirmName);
+                tieGSTIN.setText(GSTIN);
+                tieMobNum.setText(MobileNo);
+                tieEmail.setText(Email);
+                tiePassword.setText(Password);
+
+                if (Utility.validateString(PhotoUrl)) {
+                    img_ProfilePic.setImageBitmap(decodeBase64(PhotoUrl.trim()));
+                }
+
+                if (Utility.validateString(PanUrl)) {
+                    ivPan.setImageBitmap(decodeBase64(PanUrl.trim()));
+                }
+
+                if (Utility.validateString(AadhaarUrl)) {
+                    ivAadhar.setImageBitmap(decodeBase64(AadhaarUrl.trim()));
+                }
+
             }
 
-
         } catch (Exception e) {
+            Log.e(TAG, "Exception***" + e);
             e.printStackTrace();
         }
     }
 
-    public String getBase64String() {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        thePic.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-        String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
-        return encoded;
-    }
-
-    // put the image file path into this method
-    public static String getFileToByte(String filePath) {
-        Bitmap bmp = null;
-        ByteArrayOutputStream bos = null;
-        byte[] bt = null;
-        String encodeString = null;
-        try {
-            bmp = BitmapFactory.decodeFile(filePath);
-            bos = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-            bt = bos.toByteArray();
-            encodeString = Base64.encodeToString(bt, Base64.DEFAULT);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return encodeString;
+    public static Bitmap decodeBase64(String input) {
+        byte[] decodedBytes = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 
     private void findViewById() {
@@ -272,6 +388,7 @@ public class VendorCreationActivity extends BaseActivity implements View.OnClick
                 break;
         }
     }
+
     private static List<String> isValid(String passwordhere) {
         List<String> errorList = new ArrayList<>();
 
@@ -304,26 +421,30 @@ public class VendorCreationActivity extends BaseActivity implements View.OnClick
     }
 
     private void checkValidation() {
-        boolean isValidated = false;
+        try {
+            boolean isValidated = false;
 
-        String Name = tieName.getText().toString();
-        String firmName = tieFirmName.getText().toString();
-        String GSTIN = tieGSTIN.getText().toString();
-        String mobileNum = tieMobNum.getText().toString();
-        String email = tieEmail.getText().toString();
-        String password = tiePassword.getText().toString();
-        List<String> errorList = isValid(password);
+            String Name = tieName.getText().toString();
+            String firmName = tieFirmName.getText().toString();
+            String GSTIN = tieGSTIN.getText().toString();
+            String mobileNum = tieMobNum.getText().toString();
+            String email = tieEmail.getText().toString();
+            String password = tiePassword.getText().toString();
+            String photoUrl = sharedpreferences.getString("PhotoUrl", "");
+            String PanUrl = sharedpreferences.getString("PanUrl", "");
+            String AadhaarUrl = sharedpreferences.getString("AadhaarUrl", "");
+            List<String> errorList = isValid(password);
 
-        if (!Utility.validateString(Name)) {
-            isValidated = true;
-            tilName.setErrorEnabled(true);
-            tilName.setError("Please enter Name");
-        }
-        if (!Utility.validateString(firmName)) {
-            isValidated = true;
-            tilFirmName.setErrorEnabled(true);
-            tilFirmName.setError("Please enter Firm Name");
-        }
+            if (!Utility.validateString(Name)) {
+                isValidated = true;
+                tilName.setErrorEnabled(true);
+                tilName.setError("Please enter Name");
+            }
+            if (!Utility.validateString(firmName)) {
+                isValidated = true;
+                tilFirmName.setErrorEnabled(true);
+                tilFirmName.setError("Please enter Firm Name");
+            }
 //        if (!Utility.validateString(GSTIN) || GSTIN.length() < 15) {
 //            isValidated = true;
 ////            Utility.messageDialog(VendorCreationActivity.this, "Required Conditions for a Valid GST Number", "- GST should be of 15 characters.\n" +
@@ -335,46 +456,69 @@ public class VendorCreationActivity extends BaseActivity implements View.OnClick
 //            tilGSTIN.setErrorEnabled(true);
 //            tilGSTIN.setError("Please enter 15 digit GSTIN number");
 //        }
-        if (!Utility.validateString(mobileNum)) {
-            isValidated = false;
-            tilMobNum.setErrorEnabled(true);
-            tilMobNum.setError("please enter valid Mobile number");
-        }
-        if (mobileNum.length() < 10 || mobileNum.length() > 10) {
-            isValidated = true;
-            tilMobNum.setErrorEnabled(true);
-            tilMobNum.setError("Mobile number must be of 10 characters");
-        }
-        if (!Utility.validateString(email)||!emailValidator(email)) {
-            isValidated = true;
-            tilEmail.setErrorEnabled(true);
-            tilEmail.setError(getResources().getString(R.string.invalid_email));
-        }
-        if (!isUpdate){
-            if (!Utility.validateString(password)) {
+
+            if (!Utility.validateString(mobileNum)) {
                 isValidated = true;
-                tilPassword.setErrorEnabled(true);
-                tilPassword.setError("Please enter Password");
+                tilMobNum.setErrorEnabled(true);
+                tilMobNum.setError("Please enter valid Mobile number");
             }
-            if (password.length() < 8) {
+            if (mobileNum.length() < 10 || mobileNum.length() > 10) {
                 isValidated = true;
-                tilPassword.setErrorEnabled(true);
-                tilPassword.setError("Password must be of 8 characters");
+                tilMobNum.setErrorEnabled(true);
+                tilMobNum.setError("Mobile number must be of 10 characters");
             }
-            if (!errorList.isEmpty()) {
-                for (String error : errorList) {
+            if (!Utility.validateString(email) || !emailValidator(email)) {
+                isValidated = true;
+                tilEmail.setErrorEnabled(true);
+                tilEmail.setError(getResources().getString(R.string.invalid_email));
+            }
+            if (!Utility.validateString(AadhaarUrl) && !isAadharUpload) {
+                isValidated = true;
+                Utility.showToast("Please upload Aadhaar card");
+            }
+            if (!Utility.validateString(PanUrl) && !isPanUpload) {
+                isValidated = true;
+                Utility.showToast("Please upload Pan card");
+            }
+            if (!isUpdate) {
+                if (!Utility.validateString(password)) {
                     isValidated = true;
                     tilPassword.setErrorEnabled(true);
-                    tilPassword.setError(error);
+                    tilPassword.setError("Please enter Password");
                 }
+                if (password.length() < 8) {
+                    isValidated = true;
+                    tilPassword.setErrorEnabled(true);
+                    tilPassword.setError("Password must be of 8 characters");
+                }
+                if (!errorList.isEmpty()) {
+                    for (String error : errorList) {
+                        isValidated = true;
+                        tilPassword.setErrorEnabled(true);
+                        tilPassword.setError(error);
+                    }
+                }
+
             }
 
-        }
 
-        if (!isValidated) {
-            Intent i = new Intent(mContext, VendorDetailsActivity.class);
-            i.putExtra("isUpdate", isUpdate);
-            startActivity(i);
+            if (!isValidated) {
+                if (isVendorDetails) {
+                    Intent i = new Intent();
+                    setResult(RESULT_OK, i);
+                    finish();
+                } else {
+                    Intent i = new Intent(mContext, VendorDetailsActivity.class);
+                    i.putExtra("isUpdate", isUpdate);
+                    i.putExtra("response", response);
+                    startActivity(i);
+                    finish();
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -461,6 +605,7 @@ public class VendorCreationActivity extends BaseActivity implements View.OnClick
 //                    thePic = (Bitmap) extras.get("data");
 //                    //display the returned cropped image
                         if (isAdhar) {
+                            isAadharUpload = true;
                             ivAadhar.setImageBitmap(photo);
                             Log.e(TAG, "AadhaarUrl string**" + Base64.encodeToString(arr, Base64.NO_WRAP));
                             editor.putString("AadhaarUrl", Base64.encodeToString(arr, Base64.NO_WRAP));
@@ -469,6 +614,7 @@ public class VendorCreationActivity extends BaseActivity implements View.OnClick
 
                         }
                         if (isPan) {
+                            isPanUpload = true;
                             ivPan.setImageBitmap(photo);
                             Log.e(TAG, "PanUrl string**" + Base64.encodeToString(arr, Base64.NO_WRAP));
                             editor.putString("PanUrl", Base64.encodeToString(arr, Base64.NO_WRAP));
@@ -514,6 +660,7 @@ public class VendorCreationActivity extends BaseActivity implements View.OnClick
                             thePic = MediaStore.Images.Media.getBitmap(getContentResolver(), picUri);
                             //display the returned cropped image
                             if (isAdhar) {
+                                isAadharUpload = true;
                                 ivAadhar.setImageBitmap(thePic);
                                 Log.e(TAG, "AadhaarUrl string**" + getBase64StringNew(picUri, fileSize));
                                 editor.putString("AadhaarUrl", getBase64StringNew(picUri, fileSize));
@@ -522,6 +669,7 @@ public class VendorCreationActivity extends BaseActivity implements View.OnClick
 
                             }
                             if (isPan) {
+                                isPanUpload = true;
                                 ivPan.setImageBitmap(thePic);
                                 Log.e(TAG, "PanUrl string**" + getBase64StringNew(picUri, fileSize));
                                 editor.putString("PanUrl", getBase64StringNew(picUri, fileSize));
@@ -713,6 +861,16 @@ public class VendorCreationActivity extends BaseActivity implements View.OnClick
             tilPassword.setErrorEnabled(false);
             editor.putString("Password", Objects.requireNonNull(tiePassword.getText()).toString());
             editor.apply();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (VendorDetailsActivity.activityState) {
+            VendorDetailsActivity.activity.finish();
+            finish();
+        } else {
+            finish();
         }
     }
 }

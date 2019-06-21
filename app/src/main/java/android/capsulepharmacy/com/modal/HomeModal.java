@@ -5,15 +5,16 @@ package android.capsulepharmacy.com.modal;
  */
 
 public class HomeModal {
-    private String id;
+    private int id;
     private String title;
-    private int image;
+    private String image;
 
-    public String getId() {
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -25,11 +26,11 @@ public class HomeModal {
         this.title = title;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 }

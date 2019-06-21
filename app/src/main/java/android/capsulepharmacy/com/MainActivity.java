@@ -1,29 +1,44 @@
 package android.capsulepharmacy.com;
 
+import android.app.ProgressDialog;
+import android.capsulepharmacy.com.Category.activity.CategoryListingActivity;
 import android.capsulepharmacy.com.activity.AboutActivity;
-import android.capsulepharmacy.com.activity.AdminMyOrders;
+import android.capsulepharmacy.com.activity.BookVendor;
+import android.capsulepharmacy.com.activity.FilterActivity;
 import android.capsulepharmacy.com.activity.LoginActivity;
 import android.capsulepharmacy.com.activity.MyAccountActivity;
-import android.capsulepharmacy.com.activity.MyHistory;
-import android.capsulepharmacy.com.activity.MyOrders;
+import android.capsulepharmacy.com.activity.MyRequests;
 import android.capsulepharmacy.com.activity.OffersActivity;
 import android.capsulepharmacy.com.activity.Support;
 import android.capsulepharmacy.com.activity.TermsActivity;
 import android.capsulepharmacy.com.base.BaseActivity;
+import android.capsulepharmacy.com.customerModule.activity.CustomerEditActivity;
 import android.capsulepharmacy.com.customerModule.activity.CustomerListActivity;
 import android.capsulepharmacy.com.fragment.HomeFragment;
 import android.capsulepharmacy.com.notifications.NotificationUtils;
 import android.capsulepharmacy.com.utility.AppConstants;
 import android.capsulepharmacy.com.utility.Config;
+import android.capsulepharmacy.com.utility.Constants;
+import android.capsulepharmacy.com.utility.NetUtil;
 import android.capsulepharmacy.com.utility.Prefs;
+import android.capsulepharmacy.com.utility.Utility;
 import android.capsulepharmacy.com.vendor.activity.VendorCreationActivity;
 import android.capsulepharmacy.com.vendor.activity.VendorListActivity;
+import android.capsulepharmacy.com.vendor.modal.CategoryListModal;
+import android.capsulepharmacy.com.vendor.modal.SelectedSubCatList;
+import android.capsulepharmacy.com.vendor.modal.ServiceAtModal;
+import android.capsulepharmacy.com.vendor.modal.SubListingModal;
+import android.capsulepharmacy.com.vendor.singleton.CategoryListSignleton;
+import android.capsulepharmacy.com.vendor.singleton.SelectedSubCatListSingleton;
+import android.capsulepharmacy.com.vendor.singleton.ServiceAtSingleton;
+import android.capsulepharmacy.com.vendor.singleton.SubCatListingSingleton;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -32,13 +47,26 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     private int mContainerId;
@@ -80,36 +108,47 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         Menu menu = navigationView.getMenu();
 
 
-        if (Prefs.getStringPrefs(AppConstants.USER_NAME).equalsIgnoreCase("admin")) {
+        if (Prefs.getStringPrefs(AppConstants.USER_ROLE).equalsIgnoreCase("admin")) {
             menu.findItem(R.id.nav_home).setVisible(true);
             menu.findItem(R.id.customer_creation).setVisible(true);
             menu.findItem(R.id.vendor_creation).setVisible(true);
             menu.findItem(R.id.nav_logout).setVisible(true);
             menu.findItem(R.id.nav_myorder).setVisible(true);
+            menu.findItem(R.id.cat_creation).setVisible(true);
+            //  menu.findItem(R.id.nav_reorder).setVisible(true);
             //  menu.findItem(R.id.nav_trackorder).setVisible(false);
             // menu.findItem(R.id.nav_reorder).setVisible(false);
-        } else if (Prefs.getStringPrefs(AppConstants.USER_NAME).equalsIgnoreCase("vendor")){
+        } else if (Prefs.getStringPrefs(AppConstants.USER_ROLE).equalsIgnoreCase("vendor")) {
             menu.findItem(R.id.nav_myorder).setVisible(true);
             menu.findItem(R.id.nav_logout).setVisible(true);
             menu.findItem(R.id.nav_home).setVisible(true);
+            menu.findItem(R.id.cat_creation).setVisible(false);
+            //   menu.findItem(R.id.nav_reorder).setVisible(true);
             //   menu.findItem(R.id.nav_trackorder).setVisible(true);
             //  menu.findItem(R.id.nav_reorder).setVisible(true);
-        }else{
+        } else {
             menu.findItem(R.id.nav_home).setVisible(true);
             menu.findItem(R.id.nav_myorder).setVisible(true);
             menu.findItem(R.id.nav_trackorder).setVisible(true);
-            menu.findItem(R.id.nav_reorder).setVisible(true);
+            //   menu.findItem(R.id.nav_reorder).setVisible(true);
             menu.findItem(R.id.support).setVisible(true);
             menu.findItem(R.id.nav_logout).setVisible(true);
+            menu.findItem(R.id.cat_creation).setVisible(false);
         }
 
         View viewHeader = navigationView.getHeaderView(0);
         LinearLayout viewProfile = (LinearLayout) viewHeader.findViewById(R.id.llProfile);
         name = viewHeader.findViewById(R.id.name);
+       TextView points = viewHeader.findViewById(R.id.points);
         if (Prefs.getStringPrefs(AppConstants.USER_NAME).equalsIgnoreCase("")) {
             name.setText("Login or Register");
+            menu.findItem(R.id.nav_logout).setVisible(false);
+            points.setVisibility(View.GONE);
         } else {
+            points.setVisibility(View.VISIBLE);
+            points.setText(""+Prefs.getIntegerPrefs(AppConstants.USER_POINTS)+" Wallet Points");
             name.setText(Prefs.getStringPrefs(AppConstants.USER_NAME));
+            menu.findItem(R.id.nav_logout).setVisible(true);
         }
 
 
@@ -120,8 +159,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     Intent intent = new Intent(mContext, LoginActivity.class);
                     startActivityForResult(intent, 1);
                 } else {
-                    Intent i = new Intent(MainActivity.this, MyAccountActivity.class);
-                    startActivity(i);
+                    if (Prefs.getStringPrefs(AppConstants.USER_ROLE).equalsIgnoreCase("vendor")) {
+                        onVendorEditClicked(Prefs.getIntegerPrefs(AppConstants.USER_ID));
+                    }else if (Prefs.getStringPrefs(AppConstants.USER_ROLE).equalsIgnoreCase("customer")){
+
+                        onCustomerEditClicked(Prefs.getIntegerPrefs(AppConstants.USER_ID));
+                    }
+                    else
+                     {
+                        Intent i = new Intent(MainActivity.this, MyAccountActivity.class);
+                        startActivity(i);
+                    }
                 }
 
             }
@@ -175,31 +223,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        if (menu != null) {
 
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -211,8 +235,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             replaceFragment(new HomeFragment(), mContainerId);
             // Handle the camera action
         } else if (id == R.id.nav_myorder) {
-            Intent i = new Intent(mContext, AdminMyOrders.class);
-            startActivity(i);
+            if (Prefs.getStringPrefs(AppConstants.USER_NAME).equalsIgnoreCase("")) {
+                Intent i = new Intent(mContext, LoginActivity.class);
+                startActivity(i);
+            } else {
+                Intent i = new Intent(mContext, MyRequests.class);
+                startActivity(i);
+            }
            /* if (Prefs.getStringPrefs("id").equalsIgnoreCase("")) {
                Intent i = new Intent(mContext, LoginActivity.class);
                 startActivity(i);
@@ -221,15 +250,21 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     Intent i  =new Intent(mContext, AdminMyOrders.class);
                     startActivity(i);
                 }else {
-                    Intent i  =new Intent(mContext, MyOrders.class);
+                    Intent i  =new Intent(mContext, BookVendor.class);
                     startActivity(i);
                 }
 
             }*/
 
         } else if (id == R.id.nav_trackorder) {
-            Intent i = new Intent(mContext, MyOrders.class);
-            startActivity(i);
+            if (Prefs.getStringPrefs(AppConstants.USER_NAME).equalsIgnoreCase("")) {
+                Intent i = new Intent(mContext, BookVendor.class);
+                startActivity(i);
+            } else {
+                Intent i = new Intent(mContext, BookVendor.class);
+                startActivity(i);
+            }
+
            /* if (Prefs.getStringPrefs("id").equalsIgnoreCase("")) {
                 Intent i = new Intent(mContext, LoginActivity.class);
                 startActivity(i);
@@ -238,7 +273,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     Intent i  =new Intent(mContext, AdminMyOrders.class);
                     startActivity(i);
                 }else {
-                    Intent i  =new Intent(mContext, MyOrders.class);
+                    Intent i  =new Intent(mContext, BookVendor.class);
                     startActivity(i);
                 }
             }*/
@@ -247,7 +282,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             Intent i = new Intent(mContext, AboutActivity.class);
             mContext.startActivity(i);
         } else if (id == R.id.nav_reorder) {
-            Intent i = new Intent(mContext, MyHistory.class);
+            Intent i = new Intent(mContext, MyRequests.class);
             startActivity(i);
            /* if (Prefs.getStringPrefs("id").equalsIgnoreCase("")) {
                 Intent i = new Intent(mContext, LoginActivity.class);
@@ -257,7 +292,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     Intent i  =new Intent(mContext, AdminMyOrders.class);
                     startActivity(i);
                 }else {
-                    Intent i  =new Intent(mContext, MyOrders.class);
+                    Intent i  =new Intent(mContext, BookVendor.class);
                     startActivity(i);
                 }
             }*/
@@ -276,6 +311,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         } else if (id == R.id.vendor_creation) {
             Intent i = new Intent(mContext, VendorListActivity.class);
+            mContext.startActivity(i);
+        } else if (id == R.id.cat_creation) {
+            Intent i = new Intent(mContext, CategoryListingActivity.class);
             mContext.startActivity(i);
         } else if (id == R.id.customer_creation) {
             Intent i = new Intent(mContext, CustomerListActivity.class);
@@ -313,4 +351,508 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
     }
+
+
+    private void onVendorEditClicked(int id) {
+        if (NetUtil.isNetworkConnected(mContext)) {
+            getVendorDetailsList(id);
+        } else {
+            Toast.makeText(mContext, getResources().getText(R.string.no_internet_connection_warning_server_error), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void getVendorDetailsList(int id) {
+        try {
+            final ProgressDialog progressDialog = new ProgressDialog(mContext);
+            progressDialog.setMessage(mContext.getResources().getString(R.string.please_wait));
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.show();
+
+            OkHttpClient okHttpClient = APIClient.getHttpClient();
+            String url = CapsuleAPI.WEB_SERVICE_VENDOR_DETAILS + id;
+            Log.e("", "Get Request**" + url);
+
+            final Request request = APIClient.getRequest(mContext, url);
+            okHttpClient.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull final IOException e) {
+                    runOnUiThread(() -> {
+                        progressDialog.dismiss();
+
+                        Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+
+                }
+
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull final Response response) {
+                    // dismissProgress();
+
+                    runOnUiThread(() -> {
+                        progressDialog.dismiss();
+
+                    });
+
+                    try {
+                        if (response.isSuccessful()) {
+                            String responseData = response.body().string();
+                            Log.e("", "Response***" + responseData);
+                            if (responseData != null) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        setViewData(responseData);
+
+                                    }
+                                });
+
+                            }
+
+                        } else if (response.code() == Constants.BAD_REQUEST) {
+                            runOnUiThread(() -> {
+                                Toast.makeText(mContext, getResources().getString(R.string.error_bad_request), Toast.LENGTH_SHORT).show();
+                            });
+                        } else if (response.code() == Constants.INTERNAL_SERVER_ERROR) {
+                            runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_internal_server_error), Toast.LENGTH_SHORT).show());
+                        } else if (response.code() == Constants.URL_NOT_FOUND) {
+                            runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_url_not_found), Toast.LENGTH_SHORT).show());
+                        } else if (response.code() == Constants.UNAUTHORIZE_ACCESS) {
+                            runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_unautorize_access), Toast.LENGTH_SHORT).show());
+                        } else if (response.code() == Constants.CONNECTION_OUT) {
+                            runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_connection_timed_out), Toast.LENGTH_SHORT).show());
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+
+
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void setViewData(String responseData) {
+        try {
+            fetchCategoryList(true, responseData);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fetchCategoryList(boolean isUpdate, String responseData) {
+        final ProgressDialog progressDialog = new ProgressDialog(mContext);
+        progressDialog.setMessage(mContext.getResources().getString(R.string.please_wait));
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+        String url = CapsuleAPI.WEB_SERVICE_CAT_LIST;
+        Log.e("", "Get Request**" + url);
+
+        final Request request = APIClient.getCatRequest(mContext, url);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull final IOException e) {
+
+                runOnUiThread(() -> {
+                    progressDialog.dismiss();
+
+                    Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull final Response response) {
+                runOnUiThread(() -> {
+                    progressDialog.dismiss();
+
+                });
+                try {
+                    if (response.isSuccessful()) {
+                        String rData = response.body().string();
+                        Log.e("", "Response***" + rData);
+                        if (rData != null) {
+                            runOnUiThread(() ->
+                                    setDropDown(isUpdate, responseData, rData));
+                        }
+
+                    } else if (response.code() == Constants.BAD_REQUEST) {
+                        runOnUiThread(() -> {
+                            Toast.makeText(mContext, getResources().getString(R.string.error_bad_request), Toast.LENGTH_SHORT).show();
+                        });
+                    } else if (response.code() == Constants.INTERNAL_SERVER_ERROR) {
+                        runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_internal_server_error), Toast.LENGTH_SHORT).show());
+                    } else if (response.code() == Constants.URL_NOT_FOUND) {
+                        runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_url_not_found), Toast.LENGTH_SHORT).show());
+                    } else if (response.code() == Constants.UNAUTHORIZE_ACCESS) {
+                        runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_unautorize_access), Toast.LENGTH_SHORT).show());
+                    } else if (response.code() == Constants.CONNECTION_OUT) {
+                        runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_connection_timed_out), Toast.LENGTH_SHORT).show());
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+
+                }
+            }
+        });
+
+    }
+
+    private void setDropDown(boolean isUpdate, String responseData, String rData) {
+        CategoryListSignleton.getInstance().clearArrayList();
+        try {
+            JSONArray cjsonArray = new JSONArray(rData);
+            for (int i = 0; i < cjsonArray.length(); i++) {
+                JSONObject jsonObject1 = cjsonArray.optJSONObject(i);
+                CategoryListModal categoryListModal = new CategoryListModal();
+                categoryListModal.Id = jsonObject1.optInt("Id");
+                categoryListModal.Name = jsonObject1.optString("Name");
+                CategoryListSignleton.getInstance().addToArray(categoryListModal);
+            }
+            fetchServcieAt(isUpdate, responseData);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fetchServcieAt(boolean isUpdate, String responseData) {
+        final ProgressDialog progressDialog = new ProgressDialog(mContext);
+        progressDialog.setMessage(mContext.getResources().getString(R.string.please_wait));
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+        String url = CapsuleAPI.WEB_SERVICE_SERVICE_AT;
+        Log.e("", "Get Request**" + url);
+
+        final Request request = APIClient.getCatRequest(mContext, url);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull final IOException e) {
+
+                runOnUiThread(() -> {
+                    progressDialog.dismiss();
+
+                    Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull final Response response) {
+                runOnUiThread(() -> {
+                    progressDialog.dismiss();
+
+                });
+                try {
+                    if (response.isSuccessful()) {
+                        String rData = response.body().string();
+                        Log.e("", "Response***" + rData);
+                        if (rData != null) {
+                            runOnUiThread(() ->
+                                    setServiceAtDown(isUpdate, responseData, rData));
+                        }
+
+                    } else if (response.code() == Constants.BAD_REQUEST) {
+                        runOnUiThread(() -> {
+                            Toast.makeText(mContext, getResources().getString(R.string.error_bad_request), Toast.LENGTH_SHORT).show();
+                        });
+                    } else if (response.code() == Constants.INTERNAL_SERVER_ERROR) {
+                        runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_internal_server_error), Toast.LENGTH_SHORT).show());
+                    } else if (response.code() == Constants.URL_NOT_FOUND) {
+                        runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_url_not_found), Toast.LENGTH_SHORT).show());
+                    } else if (response.code() == Constants.UNAUTHORIZE_ACCESS) {
+                        runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_unautorize_access), Toast.LENGTH_SHORT).show());
+                    } else if (response.code() == Constants.CONNECTION_OUT) {
+                        runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_connection_timed_out), Toast.LENGTH_SHORT).show());
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+
+                }
+            }
+        });
+    }
+
+    private void setServiceAtDown(boolean isUpdate, String responseData, String rData) {
+        ServiceAtSingleton.getInstance().clearArrayList();
+        try {
+            JSONArray sArray = new JSONArray(rData);
+            for (int j = 0; j < sArray.length(); j++) {
+                JSONObject jsonObject1 = sArray.optJSONObject(j);
+                ServiceAtModal serviceAtModal = new ServiceAtModal();
+                serviceAtModal.Id = jsonObject1.optInt("Id");
+                serviceAtModal.Name = jsonObject1.optString("Name");
+                ServiceAtSingleton.getInstance().addToArray(serviceAtModal);
+            }
+            setSubCatList(isUpdate, responseData);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void setSubCatList(boolean isUpdate, String responseData) {
+        final ProgressDialog progressDialog = new ProgressDialog(mContext);
+        progressDialog.setMessage(mContext.getResources().getString(R.string.please_wait));
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+        String url = CapsuleAPI.WEB_SERVICE_SUB_CAT_LIST;
+        Log.e("", "Get Request**" + url);
+
+        final Request request = APIClient.getCatRequest(mContext, url);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull final IOException e) {
+
+                runOnUiThread(() -> {
+                    progressDialog.dismiss();
+
+                    Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull final Response response) {
+                runOnUiThread(() -> {
+                    progressDialog.dismiss();
+
+                });
+                try {
+                    if (response.isSuccessful()) {
+                        String rData = response.body().string();
+                        Log.e("", "Response***" + rData);
+                        if (rData != null) {
+                            runOnUiThread(() ->
+                                    setSubCatListDown(isUpdate, responseData, rData));
+                        }
+
+                    } else if (response.code() == Constants.BAD_REQUEST) {
+                        runOnUiThread(() -> {
+                            Toast.makeText(mContext, getResources().getString(R.string.error_bad_request), Toast.LENGTH_SHORT).show();
+                        });
+                    } else if (response.code() == Constants.INTERNAL_SERVER_ERROR) {
+                        runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_internal_server_error), Toast.LENGTH_SHORT).show());
+                    } else if (response.code() == Constants.URL_NOT_FOUND) {
+                        runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_url_not_found), Toast.LENGTH_SHORT).show());
+                    } else if (response.code() == Constants.UNAUTHORIZE_ACCESS) {
+                        runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_unautorize_access), Toast.LENGTH_SHORT).show());
+                    } else if (response.code() == Constants.CONNECTION_OUT) {
+                        runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_connection_timed_out), Toast.LENGTH_SHORT).show());
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+
+                }
+            }
+        });
+    }
+
+    private void setSubCatListDown(boolean isUpdate, String responseData, String rData) {
+        SubCatListingSingleton.getInstance().clearArrayList();
+        SelectedSubCatListSingleton.getInstance().clearArrayList();
+        try {
+            JSONArray jsonArray = new JSONArray(rData);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.optJSONObject(i);
+                SubListingModal subCatListModel = new SubListingModal();
+                subCatListModel.Id = jsonObject.optInt("Id");
+                subCatListModel.CategoryId = jsonObject.optInt("CategoryId");
+                subCatListModel.Name = jsonObject.optString("Name");
+                SubCatListingSingleton.getInstance().addToArray(subCatListModel);
+            }
+
+
+            if (Utility.validateString(responseData)){
+                JSONObject jObj = new JSONObject(responseData);
+                if (jObj.has("vendorSubCategoryList")){
+                    JSONArray totalArr = jObj.getJSONArray("vendorSubCategoryList");
+                    if (totalArr.length()>0){
+                        for (int i=0;i<totalArr.length();i++){
+                            JSONObject jsonObject = totalArr.optJSONObject(i);
+                            SelectedSubCatList selectedSubCatList1 = new SelectedSubCatList();
+                            selectedSubCatList1.Id= jsonObject.optInt("Id");
+                            selectedSubCatList1.VendorId= jsonObject.optInt("VendorId");
+                            selectedSubCatList1.SubCategoryId= jsonObject.optInt("SubCategoryId");
+                            selectedSubCatList1.SubCategoryName= jsonObject.optString("SubCategoryName");
+                            selectedSubCatList1.SubCategoryDescription= jsonObject.optString("SubCategoryDescription");
+                            selectedSubCatList1.SubCategoryPrice= jsonObject.optInt("SubCategoryPrice");
+                            SelectedSubCatListSingleton.getInstance().addToArray(selectedSubCatList1);
+                        }
+                    }
+                }
+            }
+
+
+
+
+            if (isUpdate) {
+                Intent i = new Intent(mContext, VendorCreationActivity.class);
+                i.putExtra("response", responseData);
+                i.putExtra("isUpdate", true);
+                startActivity(i);
+            } else {
+                Intent i = new Intent(mContext, VendorCreationActivity.class);
+                i.putExtra("response", responseData);
+                i.putExtra("isUpdate", false);
+                startActivity(i);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void onCustomerEditClicked(int id) {
+        if (NetUtil.isNetworkConnected(mContext)) {
+            getUserDetailsList(id,false);
+        }else {
+            Toast.makeText(mContext, getResources().getText(R.string.no_internet_connection_warning_server_error), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+    private void getUserDetailsList(int id,boolean isView) {
+        try {
+            final ProgressDialog progressDialog = new ProgressDialog(mContext);
+            progressDialog.setMessage(mContext.getResources().getString(R.string.please_wait));
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.show();
+
+            OkHttpClient okHttpClient = APIClient.getHttpClient();
+            String url = CapsuleAPI.WEB_SERVICE_CUSTOMER_DETAILS+id;
+            Log.e("", "Get Request**" + url);
+
+            final Request request = APIClient.getRequest(mContext, url);
+            okHttpClient.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull final IOException e) {
+
+                    runOnUiThread(() -> {
+                        progressDialog.dismiss();
+
+                        Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+
+                }
+
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull final Response response) {
+                    // dismissProgress();
+
+                    runOnUiThread(() -> {
+                        progressDialog.dismiss();
+
+                    });
+
+                    try {
+                        if (response.isSuccessful()) {
+                            String responseData = response.body().string();
+                            Log.e("", "Response***" + responseData);
+                            if (responseData != null) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (isView){
+                                            setViewData(responseData);
+                                        }else {
+                                            setEditData(responseData);
+                                        }
+                                    }
+                                });
+
+                            }
+
+                        } else if (response.code() == Constants.BAD_REQUEST) {
+                            runOnUiThread(() -> {
+                                Toast.makeText(mContext, getResources().getString(R.string.error_bad_request), Toast.LENGTH_SHORT).show();
+                            });
+                        } else if (response.code() == Constants.INTERNAL_SERVER_ERROR) {
+                            runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_internal_server_error), Toast.LENGTH_SHORT).show());
+                        } else if (response.code() == Constants.URL_NOT_FOUND) {
+                            runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_url_not_found), Toast.LENGTH_SHORT).show());
+                        } else if (response.code() == Constants.UNAUTHORIZE_ACCESS) {
+                            runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_unautorize_access), Toast.LENGTH_SHORT).show());
+                        } else if (response.code() == Constants.CONNECTION_OUT) {
+                            runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_connection_timed_out), Toast.LENGTH_SHORT).show());
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+
+
+                    }
+                }
+            });
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void setEditData(String responseData) {
+        try{
+            Intent i =new Intent(mContext, CustomerEditActivity.class);
+            i.putExtra("response",responseData);
+            startActivity(i);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        if (menu != null) {
+
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            Intent i=new Intent(MainActivity.this, FilterActivity.class);
+            i.putExtra("fromMain",1);
+            startActivity(i);
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

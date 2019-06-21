@@ -11,10 +11,12 @@ import android.capsulepharmacy.com.utility.NetUtil;
 import android.capsulepharmacy.com.utility.Utility;
 import android.capsulepharmacy.com.vendor.adapter.VendorListAdapter;
 import android.capsulepharmacy.com.vendor.modal.CategoryListModal;
+import android.capsulepharmacy.com.vendor.modal.SelectedSubCatList;
 import android.capsulepharmacy.com.vendor.modal.ServiceAtModal;
 import android.capsulepharmacy.com.vendor.modal.SubListingModal;
 import android.capsulepharmacy.com.vendor.modal.VendorListModal;
 import android.capsulepharmacy.com.vendor.singleton.CategoryListSignleton;
+import android.capsulepharmacy.com.vendor.singleton.SelectedSubCatListSingleton;
 import android.capsulepharmacy.com.vendor.singleton.ServiceAtSingleton;
 import android.capsulepharmacy.com.vendor.singleton.SubCatListingSingleton;
 import android.content.Context;
@@ -514,6 +516,7 @@ public class VendorListActivity extends AppCompatActivity implements VendorListA
 
     private void setSubCatListDown(boolean isUpdate, String responseData, String rData) {
         SubCatListingSingleton.getInstance().clearArrayList();
+        SelectedSubCatListSingleton.getInstance().clearArrayList();
         try {
             JSONArray jsonArray = new JSONArray(rData);
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -524,6 +527,33 @@ public class VendorListActivity extends AppCompatActivity implements VendorListA
                 subCatListModel.Name = jsonObject.optString("Name");
                 SubCatListingSingleton.getInstance().addToArray(subCatListModel);
             }
+
+            int VendorId = 0;
+
+            if (Utility.validateString(responseData)){
+                JSONObject jObj = new JSONObject(responseData);
+                if (jObj.has("vendorSubCategoryList")){
+                    JSONArray totalArr = jObj.getJSONArray("vendorSubCategoryList");
+                    if (totalArr.length()>0){
+                        for (int i=0;i<totalArr.length();i++){
+                            JSONObject jsonObject = totalArr.optJSONObject(i);
+                            SelectedSubCatList selectedSubCatList1 = new SelectedSubCatList();
+                            selectedSubCatList1.Id= jsonObject.optInt("Id");
+                            selectedSubCatList1.VendorId= jsonObject.optInt("VendorId");
+                            VendorId = jsonObject.optInt("VendorId");
+                            selectedSubCatList1.SubCategoryId= jsonObject.optInt("SubCategoryId");
+                            selectedSubCatList1.SubCategoryName= jsonObject.optString("SubCategoryName");
+                            selectedSubCatList1.SubCategoryDescription= jsonObject.optString("SubCategoryDescription");
+                            selectedSubCatList1.SubCategoryPrice= jsonObject.optInt("SubCategoryPrice");
+                            SelectedSubCatListSingleton.getInstance().addToArray(selectedSubCatList1);
+                        }
+                    }
+                }
+            }
+
+
+
+
             if (isUpdate) {
                 Intent i = new Intent(mContext, VendorCreationActivity.class);
                 i.putExtra("response", responseData);
@@ -592,12 +622,15 @@ public class VendorListActivity extends AppCompatActivity implements VendorListA
                     break;
                 }
             }
-            popup.getMenuInflater().inflate(R.menu.three_dots_options, popup.getMenu());
+            popup.getMenuInflater().inflate(R.menu.vendor_list_dots_options, popup.getMenu());
             popup.getMenu().getItem(0).setIcon(R.drawable.icon_edit);
             popup.getMenu().getItem(0).setTitle("Edit");
 
-            popup.getMenu().getItem(1).setIcon(R.drawable.icon_delete);
-            popup.getMenu().getItem(1).setTitle("Delete");
+            popup.getMenu().getItem(1).setIcon(R.drawable.ic_action_gallery);
+            popup.getMenu().getItem(1).setTitle("Add Gallery");
+
+            popup.getMenu().getItem(2).setIcon(R.drawable.icon_delete);
+            popup.getMenu().getItem(2).setTitle("Delete");
 
             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 public boolean onMenuItemClick(MenuItem menu_item) {
@@ -605,6 +638,11 @@ public class VendorListActivity extends AppCompatActivity implements VendorListA
                         case R.id.nav_edit:
                             //handle the click here
                             onVendorEditClicked(id);
+                            break;
+                        case R.id.nav_gallery:
+                            Intent i = new Intent(mContext,VendorGalleryActivity.class);
+                            i.putExtra("VendorId",id);
+                            startActivity(i);
                             break;
                         case R.id.nav_deleted:
                             onVendorDeleteClicked(id, Name);
@@ -721,7 +759,6 @@ public class VendorListActivity extends AppCompatActivity implements VendorListA
             okHttpClient.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull final IOException e) {
-
                     runOnUiThread(() -> {
                         progressDialog.dismiss();
                         disableSwipeToRefresh();

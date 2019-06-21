@@ -102,8 +102,8 @@ public class ReorderActivty extends BaseActivity implements View.OnClickListener
                                         for (int i=0;i<array.length();i++){
                                             MyOrderModal myOrderModal=new MyOrderModal();
                                             JSONObject object1=array.optJSONObject(i);
-                                            myOrderModal.setId(object1.optString("order_id"));
-                                            myOrderModal.setDate(object1.optString("dd")+" "+object1.optString("dt"));
+                                         //   myOrderModal.setId(object1.optString("order_id"));
+                                          //  myOrderModal.setDate(object1.optString("dd")+" "+object1.optString("dt"));
                                             myOrderModals.add(myOrderModal);
                                         }
                                         myOrderAdapter.notifyDataSetChanged();
@@ -189,7 +189,7 @@ public class ReorderActivty extends BaseActivity implements View.OnClickListener
     private void getData(){
         for (int i=0;i<orderNo.length;i++){
             MyOrderModal myOrderModal=new MyOrderModal();
-            myOrderModal.setTitle(orderNo[i]);
+       //     myOrderModal.setTitle(orderNo[i]);
             myOrderModals.add(myOrderModal);
         }
         myOrderAdapter.notifyDataSetChanged();
@@ -253,7 +253,7 @@ public class ReorderActivty extends BaseActivity implements View.OnClickListener
     }
 
     @Override
-    public void onListen(int position) {
+    public void onListen(int position,String type) {
 
     }
 }

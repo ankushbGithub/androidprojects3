@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="colorPrimary">#EF251F</color>
-    <color name="colorPrimaryDark">#EF251F</color>
-    <color name="colorAccent">#EF251F</color>
+    <color name="colorPrimary">#E7362E</color>
+
+    <color name="colorPrimaryDark">#D3164E</color>
+
+    <color name="colorAccent">#E7362E</color>
 
     <!--<color name="colorPrimary">#1cade4</color>-->
     <!--<color name="colorPrimaryDark">#199BCD</color>-->
@@ -195,4 +197,6 @@
     <color name="switchThumbActive">#1cade4</color>
     <color name="switchThumbkNormal">#1cade4</color>
     <color name="Wheat">#F5DEB3</color>
+    <color name="shadows">#CABBBBBB</color>
+
 </resources>

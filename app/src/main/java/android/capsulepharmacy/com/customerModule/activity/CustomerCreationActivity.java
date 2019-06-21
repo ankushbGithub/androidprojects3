@@ -5,10 +5,12 @@ import android.app.ProgressDialog;
 import android.capsulepharmacy.com.APIClient;
 import android.capsulepharmacy.com.CapsuleAPI;
 import android.capsulepharmacy.com.R;
+import android.capsulepharmacy.com.activity.LoginActivity;
 import android.capsulepharmacy.com.utility.Constants;
 import android.capsulepharmacy.com.utility.DateAndTimeUtil;
 import android.capsulepharmacy.com.utility.NetUtil;
 import android.capsulepharmacy.com.utility.Utility;
+import android.capsulepharmacy.com.vendor.activity.VendorDetailsActivity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -41,9 +43,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -87,6 +92,8 @@ public class CustomerCreationActivity extends AppCompatActivity implements TextW
     private CircleImageView img_ProfilePic;
     public static Activity activity;
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+    private CheckBox checkbox;
+    private boolean isChecked;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,6 +120,7 @@ public class CustomerCreationActivity extends AppCompatActivity implements TextW
     }
 
     private void initView() {
+        checkbox = findViewById(R.id.checkbox);
         toolbar = findViewById(R.id.toolbar);
 
         tilFirstName = findViewById(R.id.tilFirstName);
@@ -148,6 +156,19 @@ public class CustomerCreationActivity extends AppCompatActivity implements TextW
         tiePassword.addTextChangedListener(this);
         tieMobileNumber.addTextChangedListener(this);
         tieGstn.addTextChangedListener(this);
+
+        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    isChecked=true;
+                }else {
+                    isChecked=false;
+                }
+
+            }
+        });
+
     }
 
     @Override
@@ -196,7 +217,11 @@ public class CustomerCreationActivity extends AppCompatActivity implements TextW
                 clickAddDate();
                 break;
             case R.id.btnSubmit:
-                checkValidation();
+                if (isChecked) {
+                    checkValidation();
+                }else {
+                    Utility.showToast("Please accept terms and conditions");
+                }
                 break;
             case R.id.btnUserPic:
                 onAttachFileClicked();
@@ -337,11 +362,11 @@ public class CustomerCreationActivity extends AppCompatActivity implements TextW
             tilLastName.setErrorEnabled(true);
             tilLastName.setError(getResources().getString(R.string.invalid_l_name));
         }
-        if (!Utility.validateString(dob)) {
+        /*if (!Utility.validateString(dob)) {
             isValidated = true;
             tilDOB.setErrorEnabled(true);
             tilDOB.setError(getResources().getString(R.string.dateerror));
-        }
+        }*/
         if (!Utility.validateString(email)) {
             isValidated = true;
             tilEmail.setErrorEnabled(true);
@@ -374,13 +399,13 @@ public class CustomerCreationActivity extends AppCompatActivity implements TextW
             tilMobileNumber.setErrorEnabled(true);
             tilMobileNumber.setError("Mobile number must be of 10 characters");
         }
-        if (!TextUtils.isEmpty(gstin)) {
+        /*if (!TextUtils.isEmpty(gstin)) {
             if (gstin.length() < 15 || gstin.length() > 15) {
                 isValidated = true;
                 tilGstn.setErrorEnabled(true);
                 tilGstn.setError("Please enter a valid GSTN number");
             }
-        }
+        }*/
 
         if (!isValidated) {
             if (NetUtil.isNetworkAvailable(mContext)) {
@@ -405,9 +430,19 @@ public class CustomerCreationActivity extends AppCompatActivity implements TextW
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("FirstName", tieFirstName.getText().toString());
             jsonObject.put("LastName", tieLastName.getText().toString());
-            jsonObject.put("DOB", dob);
+            if (!Utility.validateString(dob)){
+                jsonObject.put("DOB", "1990-09-09");
+            }else{
+                jsonObject.put("DOB", dob);
+            }
+
             jsonObject.put("Email", tieEmail.getText().toString());
-            jsonObject.put("GSTIN", tieGstn.getText().toString());
+            if (!Utility.validateString(dob)){
+                jsonObject.put("GSTIN","NA");
+            }else {
+                jsonObject.put("GSTIN", tieGstn.getText().toString());
+            }
+
             jsonObject.put("MobileNo", tieMobileNumber.getText().toString());
             jsonObject.put("PhotoPath", photoPath);
             jsonObject.put("PhotoUrl", photoUrl);
@@ -450,7 +485,25 @@ public class CustomerCreationActivity extends AppCompatActivity implements TextW
                             }
                         } else if (response.code() == Constants.BAD_REQUEST) {
                             runOnUiThread(() -> {
-                                Toast.makeText(mContext, getResources().getString(R.string.error_bad_request), Toast.LENGTH_SHORT).show();
+                                String errorBodyString = null;
+                                try {
+                                    errorBodyString = response.body().string();
+
+                                    try {
+                                        JSONObject jsonObject1 = new JSONObject(errorBodyString);
+                                        if (jsonObject1.has("error_description")) {
+                                            Utility.messageDialog(CustomerCreationActivity.this, " Error", jsonObject1.optString("error_description"));
+                                            //  Toast.makeText(mContext, jsonObject1.optString("Message"), Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Utility.messageDialog(CustomerCreationActivity.this, " Error", jsonObject1.optString("Message"));
+
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             });
                         } else if (response.code() == Constants.INTERNAL_SERVER_ERROR) {
                             runOnUiThread(() -> Toast.makeText(mContext, getResources().getString(R.string.error_internal_server_error), Toast.LENGTH_SHORT).show());

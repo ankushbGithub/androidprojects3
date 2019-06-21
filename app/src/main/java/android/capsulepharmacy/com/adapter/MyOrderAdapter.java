@@ -1,11 +1,14 @@
 package android.capsulepharmacy.com.adapter;
 
+import android.capsulepharmacy.com.activity.BookVendor;
 import android.capsulepharmacy.com.activity.OrderDetailActivity;
+import android.capsulepharmacy.com.activity.OrderScreenActivity;
 import android.capsulepharmacy.com.listener.MyListener;
 import android.capsulepharmacy.com.modal.MyOrderModal;
 import android.capsulepharmacy.com.R;
 import android.capsulepharmacy.com.utility.AppConstants;
 import android.capsulepharmacy.com.utility.Utility;
+import android.capsulepharmacy.com.vendor.activity.VendorViewActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -47,43 +51,40 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ItemRowH
     @Override
     public void onBindViewHolder(final ItemRowHolder itemRowHolder, final int i) {
 
-        final String sectionName = homeModals.get(i).getOrderId();
-        itemRowHolder.itemTitle.setText("John Doe");
-    /*    itemRowHolder.tvCreated.setText("Created on - "+ Utility.getFormattedDates(homeModals.get(i).getCreatedDate(), AppConstants.utc_format,AppConstants.format2));
-        if (Utility.validateString(homeModals.get(i).getConfirmDate()) && !homeModals.get(i).getConfirmDate().equalsIgnoreCase("1970-01-01T00:00:00.000Z"))
-            itemRowHolder.tvConfirmDate.setText("Confirmed on - "+Utility.getFormattedDates(homeModals.get(i).getConfirmDate(), AppConstants.utc_format,AppConstants.format2));
-        if (Utility.validateString(homeModals.get(i).getDeliverDate()) && !homeModals.get(i).getConfirmDate().equalsIgnoreCase("1970-01-01T00:00:00.000Z"))
-            itemRowHolder.tvDeliverDate.setText("Delivery on - "+Utility.getFormattedDates(homeModals.get(i).getDeliverDate(), AppConstants.utc_format,AppConstants.format2));
-        int status=homeModals.get(i).getStatus();
+        MyOrderModal myOrderModal=homeModals.get(i);
+        final String sectionName = homeModals.get(i).getBookingNumber();
+        itemRowHolder.itemTitle.setText(myOrderModal.getVendorName());
+        itemRowHolder.tvCategory.setText(myOrderModal.getCategoryName());
+        itemRowHolder.tvlocationAt.setText(myOrderModal.getServiceAt());
+        itemRowHolder.tvService.setText(myOrderModal.getSubCategoryName());
+        itemRowHolder.tvPrice.setText("Rs. "+myOrderModal.getPrice());
+        itemRowHolder.ratingBar.setRating((float) myOrderModal.Rating);
 
-        String strStatus = null;
-        if (status==1){
-            strStatus="Pending";
-        }else if (status==-1){
-            strStatus="Cancelled";
-        }else if (status==2){
-            strStatus="Confirmed";
-        }else if (status==3){
-            strStatus="Delivered";
-        }else if (status==4){
-            strStatus="Dispatched";
-        }*/
-
-      //  itemRowHolder.tvStatus.setText(strStatus+"");
 
 
         itemRowHolder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent i=new Intent(mContext, OrderDetailActivity.class);
-               i.putExtra("orderId",homeModals.get(itemRowHolder.getAdapterPosition()).getId());
+                Intent i=new Intent(mContext, VendorViewActivity.class);
+                i.putExtra("model",myOrderModal);
                 mContext.startActivity(i);
+              /* Intent i=new Intent(mContext, OrderDetailActivity.class);
+               i.putExtra("orderId",homeModals.get(itemRowHolder.getAdapterPosition()).getBookingNumber());
+                mContext.startActivity(i);*/
             }
         });
         itemRowHolder.llReorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myListener.onListen(i);
+                myListener.onListen(i,"book");
+            }
+        });
+        itemRowHolder.llProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(mContext, VendorViewActivity.class);
+                i.putExtra("model",myOrderModal);
+                mContext.startActivity(i);
             }
         });
 
@@ -112,9 +113,10 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ItemRowH
         /**
          * The Item title.
          */
-        protected TextView itemTitle,tvCreated,tvConfirmDate,tvDeliverDate,tvStatus;
-        private ImageView imageView;
-        private LinearLayout llReorder;
+        protected TextView itemTitle,tvCategory,tvService,tvlocationAt,tvPrice;
+
+        private LinearLayout llReorder,llProfile;
+        private RatingBar ratingBar;
 
         /**
          * Instantiates a new Item row holder.
@@ -125,12 +127,14 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ItemRowH
             super(view);
             item=itemView;
             this.itemTitle = (TextView) view.findViewById(R.id.textViewHeader);
-            this.tvCreated=view.findViewById(R.id.tvCreated);
-            this.tvConfirmDate=view.findViewById(R.id.tvConfirmDate);
-            this.tvDeliverDate=view.findViewById(R.id.tvdeliverDate);
-            this.imageView=(ImageView) view.findViewById(R.id.image);
+            this.tvCategory=view.findViewById(R.id.tvCategory);
+            this.tvService=view.findViewById(R.id.tvService);
+            this.tvlocationAt=view.findViewById(R.id.tvlocationAt);
+
+            llProfile=(LinearLayout)view.findViewById(R.id.llProfile);
             llReorder=(LinearLayout)view.findViewById(R.id.llReorder);
-            tvStatus=view.findViewById(R.id.tvStatus);
+            tvPrice=view.findViewById(R.id.tvPrice);
+            ratingBar=view.findViewById(R.id.ratingBar);
 
 
 

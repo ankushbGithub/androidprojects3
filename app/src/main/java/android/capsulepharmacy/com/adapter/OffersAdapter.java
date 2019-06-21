@@ -43,11 +43,11 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.ItemRowHol
     @Override
     public void onBindViewHolder(ItemRowHolder itemRowHolder, final int i) {
 
-        final String sectionName = homeModals.get(i).getTitle();
+     /*   final String sectionName = homeModals.get(i).getTitle();
         itemRowHolder.itemTitle.setText(sectionName);
         if (Utility.validateURL(homeModals.get(i).getImage()))
             Picasso.get().load(homeModals.get(i).getImage()).fit().into(itemRowHolder.imageView);
-
+*/
         itemRowHolder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
